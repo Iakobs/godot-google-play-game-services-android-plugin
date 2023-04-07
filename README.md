@@ -1,0 +1,1 @@
+Test project to implement the new version of Google Play Game Services as a godot plugin
