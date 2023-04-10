@@ -54,6 +54,13 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     }
 
     @UsedByGodot
+    fun showAchievements() {
+        achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
+            startActivityForResult(activity!!, intent, 9001, null)
+        }
+    }
+
+    @UsedByGodot
     fun unlockAchievement(achievementId: String) {
         Log.d(tag, "Unlocking achievement with id $achievementId")
         achievementsClient.unlock(achievementId)
@@ -80,10 +87,9 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     }
 
     @UsedByGodot
-    fun showAchievements() {
-        achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
-            startActivityForResult(activity!!, intent, 9001, null)
-        }
+    fun revealAchievement(achievementId: String) {
+        Log.d(tag, "Revealing achievement with id $achievementId")
+        achievementsClient.reveal(achievementId)
     }
 
     private fun setupClients() {
