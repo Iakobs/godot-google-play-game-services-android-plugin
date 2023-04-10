@@ -36,7 +36,7 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
 
     @UsedByGodot
     fun initialize() {
-        Log.i(tag, "Initializing Google Play Game Services")
+        Log.d(tag, "Initializing Google Play Game Services")
         PlayGamesSdk.initialize(activity!!)
         signInClient = PlayGames.getGamesSignInClient(activity!!)
 
@@ -52,10 +52,10 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     private fun checkIsUserAuthenticated() {
         signInClient.isAuthenticated.addOnCompleteListener { task ->
             if (task.isSuccessful && task.result.isAuthenticated) {
-                Log.i(tag, "User successfully authenticated!")
+                Log.d(tag, "User successfully authenticated. Result is ${task.result}")
                 emitSignal(onUserAuthenticatedSuccess.name)
             } else {
-                Log.i(tag, "User not authenticated :(")
+                Log.d(tag, "User not authenticated. Exception is ${task.exception}")
                 emitSignal(onUserAuthenticatedFailure.name)
             }
         }
