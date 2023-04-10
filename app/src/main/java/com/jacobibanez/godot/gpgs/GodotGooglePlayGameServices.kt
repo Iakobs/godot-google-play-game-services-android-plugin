@@ -54,6 +54,7 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     @UsedByGodot
     fun unlockAchievement(achievementId: String) {
         Log.d(tag, "Unlocking achievement with id $achievementId")
+        achievementsClient.unlock(achievementId)
     }
 
     @UsedByGodot
