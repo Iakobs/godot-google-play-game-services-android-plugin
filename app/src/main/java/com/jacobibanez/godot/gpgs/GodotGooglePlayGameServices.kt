@@ -25,7 +25,9 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     override fun getPluginSignals(): MutableSet<SignalInfo> {
         return mutableSetOf(
             onUserAuthenticatedSuccess,
-            onUserAuthenticatedFailure
+            onUserAuthenticatedFailure,
+            onIncrementImmediateSuccess,
+            onIncrementImmediateFailure
         )
     }
 
@@ -64,6 +66,20 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     }
 
     @UsedByGodot
+    fun incrementImmediateAchievement(achievementId: String, amount: Int) {
+        Log.d(tag, "Incrementing immediate achievement with id $achievementId in an amount of $amount")
+        achievementsClient.incrementImmediate(achievementId, amount).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(tag, "Achievement $achievementId incremented successfully. Unlocked? ${task.result}")
+                emitSignal(onIncrementImmediateSuccess.name, task.result)
+            } else {
+                Log.e(tag, "Achievement $achievementId not incremented. Cause: ${task.exception}", task.exception)
+                emitSignal(onIncrementImmediateFailure.name)
+            }
+        }
+    }
+
+    @UsedByGodot
     fun showAchievements() {
         achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
             startActivityForResult(activity!!, intent, 9001, null)
@@ -81,7 +97,7 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
                 Log.d(tag, "User successfully authenticated.")
                 emitSignal(onUserAuthenticatedSuccess.name)
             } else {
-                Log.d(tag, "User not authenticated. Exception is ${task.exception}")
+                Log.e(tag, "User not authenticated. Cause: ${task.exception}", task.exception)
                 emitSignal(onUserAuthenticatedFailure.name)
             }
         }
