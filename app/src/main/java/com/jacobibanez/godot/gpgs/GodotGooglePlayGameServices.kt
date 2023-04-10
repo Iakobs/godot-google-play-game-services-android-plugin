@@ -58,6 +58,12 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     }
 
     @UsedByGodot
+    fun incrementAchievement(achievementId: String, amount: Int) {
+        Log.d(tag, "Incrementing achievement with id $achievementId in an amount of $amount")
+        achievementsClient.increment(achievementId, amount)
+    }
+
+    @UsedByGodot
     fun showAchievements() {
         achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
             startActivityForResult(activity!!, intent, 9001, null)
@@ -72,7 +78,7 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     private fun checkIsUserAuthenticated() {
         signInClient.isAuthenticated.addOnCompleteListener { task ->
             if (task.isSuccessful && task.result.isAuthenticated) {
-                Log.d(tag, "User successfully authenticated. Result is ${task.result}")
+                Log.d(tag, "User successfully authenticated.")
                 emitSignal(onUserAuthenticatedSuccess.name)
             } else {
                 Log.d(tag, "User not authenticated. Exception is ${task.exception}")
