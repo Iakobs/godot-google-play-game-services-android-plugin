@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.core.app.ActivityCompat.startActivityForResult
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.GamesSignInClient
+import com.google.android.gms.games.LeaderboardsClient
 import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.PlayGamesSdk
 import org.godotengine.godot.Godot
@@ -17,6 +18,7 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
 
     private lateinit var signInClient: GamesSignInClient
     private lateinit var achievementsClient: AchievementsClient
+    private lateinit var leaderboardsClient: LeaderboardsClient
 
     override fun getPluginName(): String {
         return "GodotGooglePlayGameServices"
@@ -92,9 +94,17 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
         achievementsClient.reveal(achievementId)
     }
 
+    @UsedByGodot
+    fun showAllLeaderboards() {
+        leaderboardsClient.allLeaderboardsIntent.addOnSuccessListener { intent ->
+            startActivityForResult(activity!!, intent, 9002, null)
+        }
+    }
+
     private fun setupClients() {
         signInClient = PlayGames.getGamesSignInClient(activity!!)
         achievementsClient = PlayGames.getAchievementsClient(activity!!)
+        leaderboardsClient = PlayGames.getLeaderboardsClient(activity!!)
     }
 
     private fun checkIsUserAuthenticated() {
