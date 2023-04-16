@@ -16,7 +16,7 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
 
     private val tag: String = GodotGooglePlayGameServices::class.java.simpleName
 
-    private lateinit var signInClient: GamesSignInClient
+    private lateinit var gamesSignInClient: GamesSignInClient
     private lateinit var achievementsClient: AchievementsClient
     private lateinit var leaderboardsClient: LeaderboardsClient
 
@@ -26,19 +26,15 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
 
     override fun getPluginSignals(): MutableSet<SignalInfo> {
         return mutableSetOf(
-            onUserAuthenticatedSuccess,
-            onUserAuthenticatedFailure,
+            isUserAuthenticatedSuccess,
+            isUserAuthenticatedFailure,
+            requestServerSideAccessSuccess,
+            requestServerSideAccessFailure,
+            signInSuccess,
+            signInFailure,
             onIncrementImmediateSuccess,
             onIncrementImmediateFailure
         )
-    }
-
-    /**
-     * Use this to test that the plugin works
-     */
-    @UsedByGodot
-    fun helloWorld() {
-        Log.i(tag, "Hello World")
     }
 
     @UsedByGodot
@@ -46,17 +42,54 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
         Log.d(tag, "Initializing Google Play Game Services")
         PlayGamesSdk.initialize(activity!!)
         setupClients()
-        checkIsUserAuthenticated()
+        isAuthenticated()
+    }
+
+    @UsedByGodot
+    fun isAuthenticated() {
+        Log.d(tag, "Checking if user is authenticated")
+        gamesSignInClient.isAuthenticated.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(tag, "User authenticated: ${task.result.isAuthenticated}")
+                emitSignal(isUserAuthenticatedSuccess.name, task.result.isAuthenticated)
+            } else {
+                Log.e(tag, "User not authenticated. Cause: ${task.exception}", task.exception)
+                emitSignal(isUserAuthenticatedFailure.name)
+            }
+        }
+    }
+
+    @UsedByGodot
+    fun requestServerSideAccess(serverClientId: String, forceRefreshToken: Boolean) {
+        Log.d(tag, "Requesting server side access for client id $serverClientId with refresh token $forceRefreshToken")
+        gamesSignInClient.requestServerSideAccess(serverClientId, forceRefreshToken).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(tag, "Access granted to server side for user: $serverClientId")
+                emitSignal(requestServerSideAccessSuccess.name, task.result)
+            } else {
+                Log.e(tag, "Failed to request server side access. Cause: ${task.exception}", task.exception)
+                emitSignal(requestServerSideAccessFailure.name)
+            }
+        }
     }
 
     @UsedByGodot
     fun signIn() {
-        signInClient.signIn()
-        checkIsUserAuthenticated()
+        Log.d(tag, "Signing in")
+        gamesSignInClient.signIn().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(tag, "User signed in: ${task.result.isAuthenticated}")
+                emitSignal(signInSuccess.name, task.result.isAuthenticated)
+            } else {
+                Log.e(tag, "User not signed in. Cause: ${task.exception}", task.exception)
+                emitSignal(signInFailure.name)
+            }
+        }
     }
 
     @UsedByGodot
     fun showAchievements() {
+        Log.d(tag, "Showing achievements")
         achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
             startActivityForResult(activity!!, intent, 9001, null)
         }
@@ -96,26 +129,15 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
 
     @UsedByGodot
     fun showAllLeaderboards() {
+        Log.d(tag, "Showing all leaderboards")
         leaderboardsClient.allLeaderboardsIntent.addOnSuccessListener { intent ->
             startActivityForResult(activity!!, intent, 9002, null)
         }
     }
 
     private fun setupClients() {
-        signInClient = PlayGames.getGamesSignInClient(activity!!)
+        gamesSignInClient = PlayGames.getGamesSignInClient(activity!!)
         achievementsClient = PlayGames.getAchievementsClient(activity!!)
         leaderboardsClient = PlayGames.getLeaderboardsClient(activity!!)
-    }
-
-    private fun checkIsUserAuthenticated() {
-        signInClient.isAuthenticated.addOnCompleteListener { task ->
-            if (task.isSuccessful && task.result.isAuthenticated) {
-                Log.d(tag, "User successfully authenticated.")
-                emitSignal(onUserAuthenticatedSuccess.name)
-            } else {
-                Log.e(tag, "User not authenticated. Cause: ${task.exception}", task.exception)
-                emitSignal(onUserAuthenticatedFailure.name)
-            }
-        }
     }
 }
