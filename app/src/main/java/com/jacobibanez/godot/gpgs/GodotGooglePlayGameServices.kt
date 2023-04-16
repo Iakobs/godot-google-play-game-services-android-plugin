@@ -32,8 +32,13 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
             requestServerSideAccessFailure,
             signInSuccess,
             signInFailure,
-            onIncrementImmediateSuccess,
-            onIncrementImmediateFailure
+
+            incrementAchievementSuccess,
+            incrementAchievementSuccessFailure,
+            revealAchievementSuccess,
+            revealAchievementFailure,
+            unlockAchievementSuccess,
+            unlockAchievementFailure
         )
     }
 
@@ -96,27 +101,15 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     }
 
     @UsedByGodot
-    fun unlockAchievement(achievementId: String) {
-        Log.d(tag, "Unlocking achievement with id $achievementId")
-        achievementsClient.unlock(achievementId)
-    }
-
-    @UsedByGodot
     fun incrementAchievement(achievementId: String, amount: Int) {
         Log.d(tag, "Incrementing achievement with id $achievementId in an amount of $amount")
-        achievementsClient.increment(achievementId, amount)
-    }
-
-    @UsedByGodot
-    fun incrementImmediateAchievement(achievementId: String, amount: Int) {
-        Log.d(tag, "Incrementing immediate achievement with id $achievementId in an amount of $amount")
         achievementsClient.incrementImmediate(achievementId, amount).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(tag, "Achievement $achievementId incremented successfully. Unlocked? ${task.result}")
-                emitSignal(onIncrementImmediateSuccess.name, task.result)
+                emitSignal(incrementAchievementSuccess.name, task.result)
             } else {
                 Log.e(tag, "Achievement $achievementId not incremented. Cause: ${task.exception}", task.exception)
-                emitSignal(onIncrementImmediateFailure.name)
+                emitSignal(incrementAchievementSuccessFailure.name)
             }
         }
     }
@@ -124,7 +117,29 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     @UsedByGodot
     fun revealAchievement(achievementId: String) {
         Log.d(tag, "Revealing achievement with id $achievementId")
-        achievementsClient.reveal(achievementId)
+        achievementsClient.revealImmediate(achievementId).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(tag, "Achievement $achievementId revealed")
+                emitSignal(revealAchievementSuccess.name)
+            } else {
+                Log.e(tag, "Achievement $achievementId not revealed. Cause: ${task.exception}", task.exception)
+                emitSignal(revealAchievementFailure.name)
+            }
+        }
+    }
+
+    @UsedByGodot
+    fun unlockAchievement(achievementId: String) {
+        Log.d(tag, "Unlocking achievement with id $achievementId")
+        achievementsClient.unlockImmediate(achievementId).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(tag, "Achievement with id $achievementId unlocked")
+                emitSignal(unlockAchievementSuccess.name)
+            } else {
+                Log.e(tag, "Error unlocking achievement $achievementId. Cause: ${task.exception}", task.exception)
+                emitSignal(unlockAchievementFailure.name)
+            }
+        }
     }
 
     @UsedByGodot
