@@ -2,27 +2,31 @@ package com.jacobibanez.godot.gpgs
 
 import android.util.Log
 import androidx.core.app.ActivityCompat.startActivityForResult
-import com.google.android.gms.games.AchievementsClient
-import com.google.android.gms.games.GamesSignInClient
 import com.google.android.gms.games.LeaderboardsClient
 import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.PlayGamesSdk
-import com.google.android.gms.games.achievement.Achievement
+import com.jacobibanez.godot.gpgs.achievements.AchievementsProxy
+import com.jacobibanez.godot.gpgs.signin.SignInProxy
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.SignalInfo
 import org.godotengine.godot.plugin.UsedByGodot
 
-class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
+const val PLUGIN_NAME = "GodotGooglePlayGameServices"
+
+class GodotGooglePlayGameServices(
+    godot: Godot,
+) : GodotPlugin(godot) {
 
     private val tag: String = GodotGooglePlayGameServices::class.java.simpleName
 
-    private lateinit var gamesSignInClient: GamesSignInClient
-    private lateinit var achievementsClient: AchievementsClient
+    private val signInProxy: SignInProxy = SignInProxy(godot)
+    private val achievementsProxy: AchievementsProxy = AchievementsProxy(godot)
+
     private lateinit var leaderboardsClient: LeaderboardsClient
 
     override fun getPluginName(): String {
-        return "GodotGooglePlayGameServices"
+        return PLUGIN_NAME
     }
 
     override fun getPluginSignals(): MutableSet<SignalInfo> {
@@ -38,120 +42,33 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     }
 
     @UsedByGodot
-    fun isAuthenticated() {
-        Log.d(tag, "Checking if user is authenticated")
-        gamesSignInClient.isAuthenticated.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(tag, "User authenticated: ${task.result.isAuthenticated}")
-                emitSignal(isUserAuthenticatedSuccess.name, task.result.isAuthenticated)
-            } else {
-                Log.e(tag, "User not authenticated. Cause: ${task.exception}", task.exception)
-                emitSignal(isUserAuthenticatedFailure.name)
-            }
-        }
-    }
+    fun isAuthenticated() = signInProxy.isAuthenticated()
 
     @UsedByGodot
-    fun requestServerSideAccess(serverClientId: String, forceRefreshToken: Boolean) {
-        Log.d(tag, "Requesting server side access for client id $serverClientId with refresh token $forceRefreshToken")
-        gamesSignInClient.requestServerSideAccess(serverClientId, forceRefreshToken).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(tag, "Access granted to server side for user: $serverClientId")
-                emitSignal(requestServerSideAccessSuccess.name, task.result)
-            } else {
-                Log.e(tag, "Failed to request server side access. Cause: ${task.exception}", task.exception)
-                emitSignal(requestServerSideAccessFailure.name)
-            }
-        }
-    }
+    fun requestServerSideAccess(serverClientId: String, forceRefreshToken: Boolean) =
+        signInProxy.requestServerSideAccess(serverClientId, forceRefreshToken)
 
     @UsedByGodot
-    fun signIn() {
-        Log.d(tag, "Signing in")
-        gamesSignInClient.signIn().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(tag, "User signed in: ${task.result.isAuthenticated}")
-                emitSignal(signInSuccess.name, task.result.isAuthenticated)
-            } else {
-                Log.e(tag, "User not signed in. Cause: ${task.exception}", task.exception)
-                emitSignal(signInFailure.name)
-            }
-        }
-    }
+    fun signIn() = signInProxy.signIn()
 
     @UsedByGodot
-    fun getAchievement(achievementId: String, forceReload: Boolean) {
-        Log.d(tag, "Loading data for achievement: $achievementId")
-        achievementsClient.load(forceReload).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(tag, "Achievements loaded successfully")
-                Log.d(tag, "Achievements are stale? ${task.result.isStale}")
-                Log.d(tag, "Number of achievements: ${task.result.get()?.count}")
-
-                val achievements: List<Achievement> = if (task.result.get() != null && task.result.get()!!.count > 0) {
-                    task.result.get()!!.toList()
-                } else {
-                    emptyList()
-                }
-
-                val achievement = fromAchievement(achievements.find { achievement -> achievement.achievementId == achievementId })
-                emitSignal(getAchievementSuccess.name, achievement)
-            } else {
-                Log.e(tag, "Failed to load achievements. Cause: ${task.exception}", task.exception)
-                emitSignal(getAchievementFailure.name)
-            }
-        }
-    }
+    fun getAchievement(achievementId: String, forceReload: Boolean) =
+        achievementsProxy.getAchievement(achievementId, forceReload)
 
     @UsedByGodot
-    fun incrementAchievement(achievementId: String, amount: Int) {
-        Log.d(tag, "Incrementing achievement with id $achievementId in an amount of $amount")
-        achievementsClient.incrementImmediate(achievementId, amount).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(tag, "Achievement $achievementId incremented successfully. Unlocked? ${task.result}")
-                emitSignal(incrementAchievementSuccess.name, task.result)
-            } else {
-                Log.e(tag, "Achievement $achievementId not incremented. Cause: ${task.exception}", task.exception)
-                emitSignal(incrementAchievementSuccessFailure.name)
-            }
-        }
-    }
+    fun incrementAchievement(achievementId: String, amount: Int) =
+        achievementsProxy.incrementAchievement(achievementId, amount)
 
     @UsedByGodot
-    fun revealAchievement(achievementId: String) {
-        Log.d(tag, "Revealing achievement with id $achievementId")
-        achievementsClient.revealImmediate(achievementId).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(tag, "Achievement $achievementId revealed")
-                emitSignal(revealAchievementSuccess.name)
-            } else {
-                Log.e(tag, "Achievement $achievementId not revealed. Cause: ${task.exception}", task.exception)
-                emitSignal(revealAchievementFailure.name)
-            }
-        }
-    }
+    fun revealAchievement(achievementId: String) =
+        achievementsProxy.revealAchievement(achievementId)
 
     @UsedByGodot
-    fun showAchievements() {
-        Log.d(tag, "Showing achievements")
-        achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
-            startActivityForResult(activity!!, intent, 9001, null)
-        }
-    }
+    fun showAchievements() = achievementsProxy.showAchievements()
 
     @UsedByGodot
-    fun unlockAchievement(achievementId: String) {
-        Log.d(tag, "Unlocking achievement with id $achievementId")
-        achievementsClient.unlockImmediate(achievementId).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(tag, "Achievement with id $achievementId unlocked")
-                emitSignal(unlockAchievementSuccess.name)
-            } else {
-                Log.e(tag, "Error unlocking achievement $achievementId. Cause: ${task.exception}", task.exception)
-                emitSignal(unlockAchievementFailure.name)
-            }
-        }
-    }
+    fun unlockAchievement(achievementId: String) =
+        achievementsProxy.unlockAchievement(achievementId)
 
     @UsedByGodot
     fun showAllLeaderboards() {
@@ -162,8 +79,6 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     }
 
     private fun setupClients() {
-        gamesSignInClient = PlayGames.getGamesSignInClient(activity!!)
-        achievementsClient = PlayGames.getAchievementsClient(activity!!)
         leaderboardsClient = PlayGames.getLeaderboardsClient(activity!!)
     }
 }
