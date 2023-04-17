@@ -7,6 +7,7 @@ import com.google.android.gms.games.GamesSignInClient
 import com.google.android.gms.games.LeaderboardsClient
 import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.PlayGamesSdk
+import com.google.android.gms.games.achievement.Achievement
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.SignalInfo
@@ -25,21 +26,7 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     }
 
     override fun getPluginSignals(): MutableSet<SignalInfo> {
-        return mutableSetOf(
-            isUserAuthenticatedSuccess,
-            isUserAuthenticatedFailure,
-            requestServerSideAccessSuccess,
-            requestServerSideAccessFailure,
-            signInSuccess,
-            signInFailure,
-
-            incrementAchievementSuccess,
-            incrementAchievementSuccessFailure,
-            revealAchievementSuccess,
-            revealAchievementFailure,
-            unlockAchievementSuccess,
-            unlockAchievementFailure
-        )
+        return getSignals()
     }
 
     @UsedByGodot
@@ -93,10 +80,26 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
     }
 
     @UsedByGodot
-    fun showAchievements() {
-        Log.d(tag, "Showing achievements")
-        achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
-            startActivityForResult(activity!!, intent, 9001, null)
+    fun getAchievement(achievementId: String, forceReload: Boolean) {
+        Log.d(tag, "Loading data for achievement: $achievementId")
+        achievementsClient.load(forceReload).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(tag, "Achievements loaded successfully")
+                Log.d(tag, "Achievements are stale? ${task.result.isStale}")
+                Log.d(tag, "Number of achievements: ${task.result.get()?.count}")
+
+                val achievements: List<Achievement> = if (task.result.get() != null && task.result.get()!!.count > 0) {
+                    task.result.get()!!.toList()
+                } else {
+                    emptyList()
+                }
+
+                val achievement = fromAchievement(achievements.find { achievement -> achievement.achievementId == achievementId })
+                emitSignal(getAchievementSuccess.name, achievement)
+            } else {
+                Log.e(tag, "Failed to load achievements. Cause: ${task.exception}", task.exception)
+                emitSignal(getAchievementFailure.name)
+            }
         }
     }
 
@@ -125,6 +128,14 @@ class GodotGooglePlayGameServices(godot: Godot) : GodotPlugin(godot) {
                 Log.e(tag, "Achievement $achievementId not revealed. Cause: ${task.exception}", task.exception)
                 emitSignal(revealAchievementFailure.name)
             }
+        }
+    }
+
+    @UsedByGodot
+    fun showAchievements() {
+        Log.d(tag, "Showing achievements")
+        achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
+            startActivityForResult(activity!!, intent, 9001, null)
         }
     }
 
