@@ -1,11 +1,9 @@
 package com.jacobibanez.godot.gpgs
 
 import android.util.Log
-import androidx.core.app.ActivityCompat.startActivityForResult
-import com.google.android.gms.games.LeaderboardsClient
-import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.PlayGamesSdk
 import com.jacobibanez.godot.gpgs.achievements.AchievementsProxy
+import com.jacobibanez.godot.gpgs.leaderboards.LeaderboardsProxy
 import com.jacobibanez.godot.gpgs.signin.SignInProxy
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
@@ -20,10 +18,9 @@ class GodotGooglePlayGameServices(
 
     private val tag: String = GodotGooglePlayGameServices::class.java.simpleName
 
-    private val signInProxy: SignInProxy = SignInProxy(godot)
-    private val achievementsProxy: AchievementsProxy = AchievementsProxy(godot)
-
-    private lateinit var leaderboardsClient: LeaderboardsClient
+    private val signInProxy = SignInProxy(godot)
+    private val achievementsProxy = AchievementsProxy(godot)
+    private val leaderboardsProxy = LeaderboardsProxy(godot)
 
     override fun getPluginName(): String {
         return PLUGIN_NAME
@@ -37,7 +34,6 @@ class GodotGooglePlayGameServices(
     fun initialize() {
         Log.d(tag, "Initializing Google Play Game Services")
         PlayGamesSdk.initialize(activity!!)
-        setupClients()
         isAuthenticated()
     }
 
@@ -71,14 +67,21 @@ class GodotGooglePlayGameServices(
         achievementsProxy.unlockAchievement(achievementId)
 
     @UsedByGodot
-    fun showAllLeaderboards() {
-        Log.d(tag, "Showing all leaderboards")
-        leaderboardsClient.allLeaderboardsIntent.addOnSuccessListener { intent ->
-            startActivityForResult(activity!!, intent, 9002, null)
-        }
-    }
+    fun showAllLeaderboards() = leaderboardsProxy.showAllLeaderboards()
 
-    private fun setupClients() {
-        leaderboardsClient = PlayGames.getLeaderboardsClient(activity!!)
-    }
+    @UsedByGodot
+    fun showLeaderboard(leaderboardId: String) = leaderboardsProxy.showLeaderboard(leaderboardId)
+
+    @UsedByGodot
+    fun showLeaderboardForTimeSpan(leaderboardId: String, timeSpan: Int) =
+        leaderboardsProxy.showLeaderboardForTimeSpan(leaderboardId, timeSpan)
+
+    @UsedByGodot
+    fun showLeaderboardForTimeSpanAndCollection(
+        leaderboardId: String,
+        timeSpan: Int,
+        collection: Int
+    ) = leaderboardsProxy.showLeaderboardForTimeSpanAndCollection(
+        leaderboardId, timeSpan, collection
+    )
 }

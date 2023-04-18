@@ -1,0 +1,97 @@
+package com.jacobibanez.godot.gpgs.leaderboards
+
+import android.util.Log
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.games.LeaderboardsClient
+import com.google.android.gms.games.PlayGames
+import org.godotengine.godot.Godot
+
+class LeaderboardsProxy(
+    private val godot: Godot,
+    private val leaderboardsClient: LeaderboardsClient = PlayGames.getLeaderboardsClient(godot.activity!!)
+) {
+
+    private val tag: String = LeaderboardsProxy::class.java.simpleName
+
+    private val showAllLeaderboardsRequestCode = 9002
+    private val showLeaderboardRequestCode = 9003
+    private val showLeaderboardForTimeSpanRequestCode = 9004
+    private val showLeaderboardForTimeSpanAndCollectionRequestCode = 9005
+
+    fun showAllLeaderboards() {
+        Log.d(tag, "Showing all leaderboards")
+        leaderboardsClient.allLeaderboardsIntent.addOnSuccessListener { intent ->
+            ActivityCompat.startActivityForResult(
+                godot.activity!!,
+                intent,
+                showAllLeaderboardsRequestCode,
+                null
+            )
+        }
+    }
+
+    fun showLeaderboard(leaderboardId: String) {
+        Log.d(tag, "Showing leaderboard with id $leaderboardId")
+        leaderboardsClient.getLeaderboardIntent(leaderboardId).addOnSuccessListener { intent ->
+            ActivityCompat.startActivityForResult(
+                godot.activity!!,
+                intent,
+                showLeaderboardRequestCode,
+                null
+            )
+        }
+    }
+
+    fun showLeaderboardForTimeSpan(leaderboardId: String, timeSpan: Int) {
+        Log.d(
+            tag,
+            "Showing leaderboard with id $leaderboardId for time span ${getTimeSpan(timeSpan)}"
+        )
+        leaderboardsClient.getLeaderboardIntent(leaderboardId, timeSpan)
+            .addOnSuccessListener { intent ->
+                ActivityCompat.startActivityForResult(
+                    godot.activity!!,
+                    intent,
+                    showLeaderboardForTimeSpanRequestCode,
+                    null
+                )
+            }
+    }
+
+    fun showLeaderboardForTimeSpanAndCollection(
+        leaderboardId: String,
+        timeSpan: Int,
+        collection: Int
+    ) {
+        Log.d(
+            tag,
+            "Showing leaderboard with id $leaderboardId for time span ${getTimeSpan(timeSpan)} and collection ${
+                getCollection(
+                    collection
+                )
+            }"
+        )
+        leaderboardsClient.getLeaderboardIntent(leaderboardId, timeSpan, collection)
+            .addOnSuccessListener { intent ->
+                ActivityCompat.startActivityForResult(
+                    godot.activity!!,
+                    intent,
+                    showLeaderboardForTimeSpanAndCollectionRequestCode,
+                    null
+                )
+            }
+    }
+
+    private fun getTimeSpan(timeSpan: Int): String = when (timeSpan) {
+        0 -> "TIME_SPAN_DAILY"
+        1 -> "TIME_SPAN_WEEKLY"
+        2 -> "TIME_SPAN_ALL_TIME"
+        else -> ""
+    }
+
+    private fun getCollection(timeSpan: Int): String = when (timeSpan) {
+        0 -> "COLLECTION_PUBLIC"
+        3 -> "COLLECTION_FRIENDS"
+        else -> ""
+    }
+}

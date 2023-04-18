@@ -26,6 +26,8 @@ class AchievementsProxy(
 
     private val tag: String = AchievementsProxy::class.java.simpleName
 
+    private val showAchievementsRequestCode = 9001
+
     @SuppressLint("VisibleForTests")
     fun getAchievement(achievementId: String, forceReload: Boolean) {
         Log.d(tag, "Loading data for achievement: $achievementId")
@@ -92,7 +94,10 @@ class AchievementsProxy(
     fun showAchievements() {
         Log.d(tag, "Showing achievements")
         achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
-            ActivityCompat.startActivityForResult(godot.activity!!, intent, 9001, null)
+            ActivityCompat.startActivityForResult(
+                godot.activity!!, intent,
+                showAchievementsRequestCode, null
+            )
         }
     }
 
