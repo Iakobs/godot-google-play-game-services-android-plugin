@@ -21,7 +21,8 @@ val unlockAchievementSuccess = SignalInfo("unlockAchievementSuccess")
 val unlockAchievementFailure = SignalInfo("unlockAchievementFailure")
 
 // Leaderboards
-
+val submitScoreSuccess = SignalInfo("submitScoreSuccess")
+val submitScoreFailure = SignalInfo("submitScoreFailure")
 
 fun getSignals(): MutableSet<SignalInfo> {
     return mutableSetOf(
@@ -39,6 +40,9 @@ fun getSignals(): MutableSet<SignalInfo> {
         revealAchievementSuccess,
         revealAchievementFailure,
         unlockAchievementSuccess,
-        unlockAchievementFailure
+        unlockAchievementFailure,
+
+        submitScoreSuccess,
+        submitScoreFailure
     )
 }

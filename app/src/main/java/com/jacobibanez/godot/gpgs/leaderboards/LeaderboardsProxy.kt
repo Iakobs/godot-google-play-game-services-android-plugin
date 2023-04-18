@@ -4,7 +4,11 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.games.LeaderboardsClient
 import com.google.android.gms.games.PlayGames
+import com.jacobibanez.godot.gpgs.PLUGIN_NAME
+import com.jacobibanez.godot.gpgs.submitScoreFailure
+import com.jacobibanez.godot.gpgs.submitScoreSuccess
 import org.godotengine.godot.Godot
+import org.godotengine.godot.plugin.GodotPlugin
 
 class LeaderboardsProxy(
     private val godot: Godot,
@@ -80,6 +84,23 @@ class LeaderboardsProxy(
                     null
                 )
             }
+    }
+
+    fun submitScore(leaderboardId: String, score: Int) {
+        Log.d(tag, "Submitting score of $score to leaderboard $leaderboardId")
+        leaderboardsClient.submitScoreImmediate(leaderboardId, score.toLong()).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(tag, "Score submitted successfully")
+                GodotPlugin.emitSignal(godot, PLUGIN_NAME, submitScoreSuccess)
+            } else {
+                Log.e(
+                    tag,
+                    "Error submitting score. Cause: ${task.exception}",
+                    task.exception
+                )
+                GodotPlugin.emitSignal(godot, PLUGIN_NAME, submitScoreFailure)
+            }
+        }
     }
 
     private fun getTimeSpan(timeSpan: Int): String = when (timeSpan) {

@@ -83,4 +83,8 @@ class GodotGooglePlayGameServices(
     ) = leaderboardsProxy.showLeaderboardForTimeSpanAndCollection(
         leaderboardId, timeSpan, collection
     )
+
+    @UsedByGodot
+    fun submitScore(leaderboardId: String, score: Int) =
+        leaderboardsProxy.submitScore(leaderboardId, score)
 }
