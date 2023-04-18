@@ -1,6 +1,5 @@
 package com.jacobibanez.godot.gpgs
 
-import org.godotengine.godot.Dictionary
 import org.godotengine.godot.plugin.SignalInfo
 
 // Games Sign In
@@ -12,10 +11,10 @@ val signInSuccess = SignalInfo("signInSuccess", Boolean::class.javaObjectType)
 val signInFailure = SignalInfo("signInFailure")
 
 // Achievements
-val getAchievementSuccess = SignalInfo("getAchievementSuccess", Dictionary::class.java)
-val getAchievementFailure = SignalInfo("getAchievementFailure")
 val incrementAchievementSuccess = SignalInfo("incrementAchievementSuccess", Boolean::class.javaObjectType)
 val incrementAchievementSuccessFailure = SignalInfo("incrementAchievementSuccessFailure")
+val loadAchievementsSuccess = SignalInfo("loadAchievementsSuccess", String::class.java)
+val loadAchievementsFailure = SignalInfo("loadAchievementsFailure")
 val revealAchievementSuccess = SignalInfo("revealAchievement")
 val revealAchievementFailure = SignalInfo("revealAchievement")
 val unlockAchievementSuccess = SignalInfo("unlockAchievementSuccess")
@@ -33,10 +32,10 @@ fun getSignals(): MutableSet<SignalInfo> {
         signInSuccess,
         signInFailure,
 
-        getAchievementSuccess,
-        getAchievementFailure,
         incrementAchievementSuccess,
         incrementAchievementSuccessFailure,
+        loadAchievementsSuccess,
+        loadAchievementsFailure,
         revealAchievementSuccess,
         revealAchievementFailure,
         unlockAchievementSuccess,

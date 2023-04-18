@@ -48,12 +48,11 @@ class GodotGooglePlayGameServices(
     fun signIn() = signInProxy.signIn()
 
     @UsedByGodot
-    fun getAchievement(achievementId: String, forceReload: Boolean) =
-        achievementsProxy.getAchievement(achievementId, forceReload)
-
-    @UsedByGodot
     fun incrementAchievement(achievementId: String, amount: Int) =
         achievementsProxy.incrementAchievement(achievementId, amount)
+
+    @UsedByGodot
+    fun loadAchievements(forceReload: Boolean) = achievementsProxy.loadAchievements(forceReload)
 
     @UsedByGodot
     fun revealAchievement(achievementId: String) =

@@ -1,21 +1,20 @@
 package com.jacobibanez.godot.gpgs.achievements
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.PlayGames
-import com.google.android.gms.games.achievement.Achievement
+import com.google.gson.Gson
 import com.jacobibanez.godot.gpgs.PLUGIN_NAME
-import com.jacobibanez.godot.gpgs.fromAchievement
-import com.jacobibanez.godot.gpgs.getAchievementFailure
-import com.jacobibanez.godot.gpgs.getAchievementSuccess
 import com.jacobibanez.godot.gpgs.incrementAchievementSuccess
 import com.jacobibanez.godot.gpgs.incrementAchievementSuccessFailure
+import com.jacobibanez.godot.gpgs.loadAchievementsFailure
+import com.jacobibanez.godot.gpgs.loadAchievementsSuccess
 import com.jacobibanez.godot.gpgs.revealAchievementFailure
 import com.jacobibanez.godot.gpgs.revealAchievementSuccess
 import com.jacobibanez.godot.gpgs.unlockAchievementFailure
 import com.jacobibanez.godot.gpgs.unlockAchievementSuccess
+import org.godotengine.godot.Dictionary
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin.emitSignal
 
@@ -27,32 +26,6 @@ class AchievementsProxy(
     private val tag: String = AchievementsProxy::class.java.simpleName
 
     private val showAchievementsRequestCode = 9001
-
-    @SuppressLint("VisibleForTests")
-    fun getAchievement(achievementId: String, forceReload: Boolean) {
-        Log.d(tag, "Loading data for achievement: $achievementId")
-        achievementsClient.load(forceReload).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(tag, "Achievements loaded successfully")
-                Log.d(tag, "Achievements are stale? ${task.result.isStale}")
-                Log.d(tag, "Number of achievements: ${task.result.get()?.count}")
-
-                val achievements: List<Achievement> =
-                    if (task.result.get() != null && task.result.get()!!.count > 0) {
-                        task.result.get()!!.toList()
-                    } else {
-                        emptyList()
-                    }
-
-                val achievement = fromAchievement(achievements
-                    .find { achievement -> achievement.achievementId == achievementId })
-                emitSignal(godot, PLUGIN_NAME, getAchievementSuccess, achievement)
-            } else {
-                Log.e(tag, "Failed to load achievements. Cause: ${task.exception}", task.exception)
-                emitSignal(godot, PLUGIN_NAME, getAchievementFailure)
-            }
-        }
-    }
 
     fun incrementAchievement(achievementId: String, amount: Int) {
         Log.d(tag, "Incrementing achievement with id $achievementId in an amount of $amount")
@@ -70,6 +43,29 @@ class AchievementsProxy(
                     task.exception
                 )
                 emitSignal(godot, PLUGIN_NAME, incrementAchievementSuccessFailure)
+            }
+        }
+    }
+
+    fun loadAchievements(forceReload: Boolean) {
+        Log.d(tag, "Loading achievements")
+        achievementsClient.load(forceReload).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(tag, "Achievements loaded successfully")
+                Log.d(tag, "Achievements are stale? ${task.result.isStale}")
+                Log.d(tag, "Number of achievements: ${task.result.get()?.count}")
+
+                val achievements: List<Dictionary> =
+                    if (task.result.get() != null && task.result.get()!!.count > 0) {
+                        task.result.get()!!.map { fromAchievement(it) }.toList()
+                    } else {
+                        emptyList()
+                    }
+
+                emitSignal(godot, PLUGIN_NAME, loadAchievementsSuccess, Gson().toJson(achievements))
+            } else {
+                Log.e(tag, "Failed to load achievements. Cause: ${task.exception}", task.exception)
+                emitSignal(godot, PLUGIN_NAME, loadAchievementsFailure)
             }
         }
     }
