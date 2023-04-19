@@ -1,0 +1,40 @@
+name: Build library artifact
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permissions for gradlew
+        run: chmod +x gradlew
+
+      - name: Cache gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build artifact
+        run: ./gradlew :app:assembleRelease
+
+      - name: Upload library package
+        uses: actions/upload-artifact@v3
+        with:
+          name: Library package
+          path: app/build/outputs/aar/GodotGooglePlayGameServices.release.aar
