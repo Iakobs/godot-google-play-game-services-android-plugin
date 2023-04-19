@@ -2,6 +2,8 @@ name: Build library artifact
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ 'main' ]
 
 jobs:
   build:

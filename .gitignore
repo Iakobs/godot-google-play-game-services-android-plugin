@@ -3,6 +3,7 @@
 *.aar
 *.ap_
 *.aab
+!godot-lib.3.5.2.stable.release.aar
 
 # Files for the ART/Dalvik VM
 *.dex

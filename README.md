@@ -20,7 +20,6 @@ As the task to update cgisca's plugin involved learning how to use the new Googl
   * [Supported features](#supported-features)
 * [Side note](#side-note)
 * [Preparing everything](#preparing-everything)
-  * [In this repository](#in-this-repository)
   * [In Godot](#in-godot)
   * [In your Google account](#in-your-google-account)
 * [Detailed How To's](#detailed-how-tos)
@@ -60,17 +59,12 @@ In order to use this plugin in your godot game, you have to follow some steps. *
 
 These are the general steps overall, for the specific how to's on every step, keep reading.
 
-### In this repository
-1. Download the android library for godot and paste it in the proper folder
-2. Build the project with gradle to generate the .aar file
-3. Copy the resulting .aar file and the existing .gdap file for later
-
 ### In Godot
 1. Create a new godot project
 2. Configure your editor android settings
 3. Download an android template
 4. Create an android run export configuration
-5. Paste the plugin .aar and .gdap files in the proper folder
+5. Paste the plugin .aar and .gdap files in the proper folder, available in the releases of this repository
 6. Modify the android template accordingly
 
 ### In your Google account
