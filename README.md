@@ -1,8 +1,8 @@
-# Google Play Game Services for Godot
+![Plugin Header](github-social-preview.png)
 
-[![Android](https://img.shields.io/badge/Platform-Android%20API%20Level%2033-brightgreen.svg)](https://developer.android.com)
-[![Godot](https://img.shields.io/badge/Godot%20Engine-3.5.2-blue.svg)](https://github.com/godotengine/godot/)
-[![PGS](https://img.shields.io/badge/Play%20Games%20Services%20v2-17.0.0-green.svg)](https://developers.google.com/games/services/android/quickstart)
+[![Android version and API level](https://img.shields.io/badge/Platform-Android%20API%20Level%2033-brightgreen.svg)](https://developer.android.com)
+[![Godot version](https://img.shields.io/badge/Godot%20Engine-3.5.2-blue.svg)](https://github.com/godotengine/godot/)
+[![Google Play Game Services version](https://img.shields.io/badge/Play%20Games%20Services%20v2-17.0.0-green.svg)](https://developers.google.com/games/services/android/quickstart)
 
 > :warning: In order to use the Google Play Game Services, you will need a Google developer account, which involves a **once in a lifetime payment of $25** at the time of writing (April 2023)
 
@@ -17,7 +17,7 @@ As the task to update cgisca's plugin involved learning how to use the new Googl
 ## Table of contents
 
 * [Purpose](#purpose)
-  * [Supported features](#supported-features)
+* [Supported features](#supported-features)
 * [Side note](#side-note)
 * [Preparing everything](#preparing-everything)
   * [In Godot](#in-godot)
@@ -32,7 +32,7 @@ That being said, we've tried to include as much as we thought it was necessary t
 
 Also, this plugin is still a work in progress, so bear with us as we introduce more integrations.
 
-### Supported features
+## Supported features
 
 So far, the plugin provides the following features:
 
