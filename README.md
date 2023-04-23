@@ -12,7 +12,7 @@ This plugin started as an update of [cgisca's plugin](https://github.com/cgisca/
 
 [@rafalagoon](https://github.com/rafalagoon) suggested to update the plugin since it was not working with Godot versions 3.3.x or later, and Google has provided a complete revamp of the integration with their game services.
 
-As the task to update cgisca's plugin involved learning how to use the new Google Play Game Services library, the android library as well, and a bunch of things completeley new to me, I decided to start from scratch in this new repository.
+As the task to update cgisca's plugin involved learning how to use the new Google Play Game Services library, the android library as well, and a bunch of things completely new to me, I decided to start from scratch in this new repository.
 
 # Table of contents
 
@@ -25,6 +25,8 @@ As the task to update cgisca's plugin involved learning how to use the new Googl
 * [Detailed How To's](#detailed-how-tos)
   * [Configure your editor android settings](#configure-your-editor-android-settings)
   * [Download and edit the android template](#download-and-edit-the-android-template)
+  * [Paste the plugin to the corresponding folder](#paste-the-plugin-to-the-corresponding-folder)
+  * [Create the android run export configuration](#create-the-android-run-export-configuration)
 
 # Purpose
 
@@ -32,7 +34,7 @@ This is an **android plugin** for **Godot 3.5.x** to integrate the new revamp of
 
 Sadly, it is not an **exhaustive integration** because Google Play Game Services has many APIs and some of the DTOs being returned are not compatible with Godot or difficult to map from java to gdscript.
 
-That being said, we've tried to include as much as we thought it was necessary to provide a professional integration with Google's games system.
+That being said, we've tried to include as much as we thought it was necessary to provide a **professional integration** with Google's games system.
 
 > :construction: This plugin is still a work in progress, so bear with us as we introduce more integrations!
 
@@ -69,8 +71,8 @@ These are the general steps overall, for the detailed instructions, go [here](#d
 1. Create a new Godot project
 2. Configure your editor android settings
 3. Download and edit the android template
-4. Create the android run export configuration
-5. Paste the plugin .aar and .gdap files in the proper folder, available in the releases of this repository
+4. Paste the plugin .aar and .gdap files in the proper folder, available in the releases of this repository
+5. Create the android run export configuration
 
 ## In your Google account
 1. Create a Google Play Console dev account (this is the step involving a payment)
@@ -95,11 +97,11 @@ The place to put this information in your Godot editor is in `Editor` > `Editor 
 
 ## Download and edit the android template
 
-To use the android plugin you will need to download an android template to your project. This is done via the Godot editor. Just click `Editor` > `Manage Export Templates...` and you will see a menu to download a template for your Godot version, if you haven't done so before.
+To use the android plugin you will need to download an **android template** to your project. This is done via the Godot editor. Just click `Editor` > `Manage Export Templates...` and you will see a menu to download a template for your Godot version, if you haven't done so before.
 
 ![Screenshot of the export template manager window in the Godot editor](docs/images/export-template-manager.png)
 
-This template is basically an **android gradle project** that will be used as a template when exporting your game as an android `apk` or `aar` file, and it will be installed in your `android/build` folder. There, you will find the `AndroidManifest.xml` file. Open it and add the following anywhere inside the `<application/>` tag:
+This template is basically an **android gradle project** that will be used as a template when exporting your game as an android `apk` or `aab` file, and it will be installed in your `android/build` folder. There, you will find the `AndroidManifest.xml` file. Open it and add the following anywhere inside the `<application/>` tag:
 
 ```xml
 <application ...>
@@ -128,3 +130,29 @@ We also recommend you to **update the gradle wrapper** to version 7.5 and the **
 
 * **Update gradle wrapper:** Update the `android/build/gradle/wrapper/gradle-wrapper.properties` file, so the version you see there is `gradle-7.5-bin`
 * **Update gradle plugin:** In the `android/build/config.gradle` file, change the `androidGradlePlugin` property (usually in line 2 of the file) to `7.4.2`
+
+## Paste the plugin to the corresponding folder
+
+In order to _install_ the Android plugin, you just need to download the `.gdap` and `.aar` files from the [releases section of this repository](https://github.com/Iakobs/godot-google-play-game-services-android-plugin/releases) and put them in your godot project, under the `android/plugins` folder.
+
+> :warning: This is a simple but MANDATORY step. This is actually how you install the plugin, so don't miss this step!
+
+## Create the android run export configuration
+
+You have to create an export configuration to build the `aab` file of your game. As opposed to `apk` files, which is the old format, Google recommends using the new `aab` bundle format for your android apps.
+
+The export configuration can be found under `Project` > `Export...`. This opens a new window where you have to add a new android configuration. Once you click on the `Add` button and select the Android option, the export configuration will appear. The changes that need to be done are:
+
+* **Under the `Custom build` section:**
+  * **Use Custom Build:** On
+  * **Export Format:** Export AAB
+  * **Min SDK:** 24 (this is the least minimum that we need to be able to use the Google library for game services, but can be higher, thus limiting the number of devices that can run your game)
+  * **Target SDK:** The recommendation is to use the latest one. 33 at the time of writing (April 2023)
+* **Under the `Plugins` section:**
+  * Your plugins appear here once you have them under your `android/plugins` folder. In this case, you have to activate the plugin named `Godot Google Play Game Services`
+* **Under the `Architectures` section:**
+  * This section contains checkboxes for the main android supported architectures. Just check them all.
+* **Under the `Keystore` section:**
+  * This section is important, this is where you tell Godot where are your **keystores, user and passwords**, in order to sign the resulting `aab` file. As mentioned in the configuration of your game credentials in your Google Dev Console account, the keystore that you use here shall have the same user and password (thus the same SHA1) as the one you will use in your credentials AND to sign the app. You usually only need to specify the release keystore information here.
+
+![Screenshot of the export configurations window, showing the Android configuration](docs/images/android-export-config.png)
