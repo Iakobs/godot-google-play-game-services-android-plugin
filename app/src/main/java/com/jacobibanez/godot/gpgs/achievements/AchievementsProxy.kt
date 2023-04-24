@@ -51,12 +51,13 @@ class AchievementsProxy(
         Log.d(tag, "Loading achievements")
         achievementsClient.load(forceReload).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.d(tag, "Achievements loaded successfully")
-                Log.d(tag, "Achievements are stale? ${task.result.isStale}")
-                Log.d(tag, "Number of achievements: ${task.result.get()?.count}")
-
+                Log.d(
+                    tag,
+                    "Achievements loaded successfully. Achievements are stale? ${task.result.isStale}"
+                )
+                val achievementsCount = task.result.get()!!.count
                 val achievements: List<Dictionary> =
-                    if (task.result.get() != null && task.result.get()!!.count > 0) {
+                    if (task.result.get() != null && achievementsCount > 0) {
                         task.result.get()!!.map { fromAchievement(it) }.toList()
                     } else {
                         emptyList()

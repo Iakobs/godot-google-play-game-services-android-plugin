@@ -24,6 +24,10 @@ val unlockAchievementFailure = SignalInfo("unlockAchievementFailure")
 val submitScoreSuccess = SignalInfo("submitScoreSuccess")
 val submitScoreFailure = SignalInfo("submitScoreFailure")
 
+// Friends
+val loadFriendsSuccess = SignalInfo("loadFriendsSuccess", String::class.java)
+val loadFriendsFailure = SignalInfo("loadFriendsFailure")
+
 fun getSignals(): MutableSet<SignalInfo> {
     return mutableSetOf(
         isUserAuthenticatedSuccess,
@@ -43,6 +47,9 @@ fun getSignals(): MutableSet<SignalInfo> {
         unlockAchievementFailure,
 
         submitScoreSuccess,
-        submitScoreFailure
+        submitScoreFailure,
+
+        loadFriendsSuccess,
+        loadFriendsFailure
     )
 }

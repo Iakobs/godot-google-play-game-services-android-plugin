@@ -3,6 +3,7 @@ package com.jacobibanez.godot.gpgs
 import android.util.Log
 import com.google.android.gms.games.PlayGamesSdk
 import com.jacobibanez.godot.gpgs.achievements.AchievementsProxy
+import com.jacobibanez.godot.gpgs.friends.FriendsProxy
 import com.jacobibanez.godot.gpgs.leaderboards.LeaderboardsProxy
 import com.jacobibanez.godot.gpgs.signin.SignInProxy
 import org.godotengine.godot.Godot
@@ -21,6 +22,7 @@ class GodotGooglePlayGameServices(
     private val signInProxy = SignInProxy(godot)
     private val achievementsProxy = AchievementsProxy(godot)
     private val leaderboardsProxy = LeaderboardsProxy(godot)
+    private val friendsProxy = FriendsProxy(godot)
 
     override fun getPluginName(): String {
         return PLUGIN_NAME
@@ -87,4 +89,8 @@ class GodotGooglePlayGameServices(
     @UsedByGodot
     fun submitScore(leaderboardId: String, score: Int) =
         leaderboardsProxy.submitScore(leaderboardId, score)
+
+    @UsedByGodot
+    fun loadFriends(pageSize: Int, forceReload: Boolean) =
+        friendsProxy.loadFriends(pageSize, forceReload)
 }
