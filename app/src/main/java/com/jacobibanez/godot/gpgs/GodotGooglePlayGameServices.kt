@@ -93,4 +93,18 @@ class GodotGooglePlayGameServices(
     @UsedByGodot
     fun loadFriends(pageSize: Int, forceReload: Boolean) =
         friendsProxy.loadFriends(pageSize, forceReload)
+
+    @UsedByGodot
+    fun compareProfile(otherPlayerId: String) = friendsProxy.compareProfile(otherPlayerId)
+
+    @UsedByGodot
+    fun compareProfileWithAlternativeNameHints(
+        otherPlayerId: String,
+        otherPlayerInGameName: String,
+        currentPlayerInGameName: String
+    ) = friendsProxy.compareProfileWithAlternativeNameHints(
+        otherPlayerId,
+        otherPlayerInGameName,
+        currentPlayerInGameName
+    )
 }

@@ -1,6 +1,7 @@
 package com.jacobibanez.godot.gpgs.friends
 
 import android.util.Log
+import androidx.core.app.ActivityCompat
 import com.google.android.gms.games.AnnotatedData
 import com.google.android.gms.games.FriendsResolutionRequiredException
 import com.google.android.gms.games.PlayGames
@@ -23,6 +24,8 @@ class FriendsProxy(
     private val tag: String = FriendsProxy::class.java.simpleName
 
     private val showSharingFriendsConsentRequestCode = 9006
+    private val compareProfileRequestCode = 9007
+    private val compareProfileWithAlternativeNameHintsRequestCode = 9008
 
     fun loadFriends(pageSize: Int, forceReload: Boolean) {
         Log.d(tag, "Loading friends with page size of $pageSize and forceReload = $forceReload")
@@ -39,6 +42,42 @@ class FriendsProxy(
                     emitSignal(godot, PLUGIN_NAME, loadFriendsFailure)
                 }
             }
+        }
+    }
+
+    fun compareProfile(otherPlayerId: String) {
+        Log.d(tag, "Comparing profile with player with id $otherPlayerId")
+        playersClient.getCompareProfileIntent(otherPlayerId).addOnSuccessListener { intent ->
+            ActivityCompat.startActivityForResult(
+                godot.activity!!,
+                intent,
+                compareProfileRequestCode,
+                null
+            )
+        }
+    }
+
+    fun compareProfileWithAlternativeNameHints(
+        otherPlayerId: String,
+        otherPlayerInGameName: String,
+        currentPlayerInGameName: String
+    ) {
+        Log.d(
+            tag, "Comparing profile with player with id $otherPlayerId. " +
+                    "Current player in-game name: $currentPlayerInGameName. " +
+                    "Other player in-game name: $otherPlayerInGameName"
+        )
+        playersClient.getCompareProfileIntentWithAlternativeNameHints(
+            otherPlayerId,
+            otherPlayerInGameName,
+            currentPlayerInGameName
+        ).addOnSuccessListener { intent ->
+            ActivityCompat.startActivityForResult(
+                godot.activity!!,
+                intent,
+                compareProfileWithAlternativeNameHintsRequestCode,
+                null
+            )
         }
     }
 
