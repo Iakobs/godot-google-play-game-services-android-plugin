@@ -4,6 +4,8 @@
 [![Godot version](https://img.shields.io/badge/Godot%20Engine-3.5.2-blue.svg)](https://github.com/godotengine/godot/)
 [![Google Play Game Services version](https://img.shields.io/badge/Play%20Games%20Services%20v2-17.0.0-green.svg)](https://developers.google.com/games/services/android/quickstart)
 
+> ⚠️ A new version of this plugin for Godot 4.2 can be found [here](https://github.com/Iakobs/godot-play-game-services)!
+
 > :warning: In order to use the Google Play Game Services, you will need a Google developer account, which involves a **once in a lifetime payment of $25** at the time of writing (April 2023)
 
 # Credit and Acknowledgments
