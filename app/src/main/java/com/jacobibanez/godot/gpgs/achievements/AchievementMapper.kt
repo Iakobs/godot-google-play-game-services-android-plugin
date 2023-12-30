@@ -2,7 +2,6 @@ package com.jacobibanez.godot.gpgs.achievements
 
 import com.google.android.gms.games.achievement.Achievement
 import com.google.android.gms.games.achievement.Achievement.TYPE_INCREMENTAL
-import com.jacobibanez.godot.gpgs.achievements.Type
 import com.jacobibanez.godot.gpgs.players.fromPlayer
 import com.jacobibanez.godot.gpgs.utils.toStringAndSave
 import org.godotengine.godot.Dictionary
