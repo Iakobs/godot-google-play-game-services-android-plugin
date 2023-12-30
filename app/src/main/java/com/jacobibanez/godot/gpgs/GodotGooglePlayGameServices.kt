@@ -86,10 +86,6 @@ class GodotGooglePlayGameServices(
 
     /* Players */
     @UsedByGodot
-    fun loadFriends(pageSize: Int, forceReload: Boolean, askForPermission: Boolean) =
-        playersProxy.loadFriends(pageSize, forceReload, askForPermission)
-
-    @UsedByGodot
     fun compareProfile(otherPlayerId: String) = playersProxy.compareProfile(otherPlayerId)
 
     @UsedByGodot
@@ -104,10 +100,14 @@ class GodotGooglePlayGameServices(
     )
 
     @UsedByGodot
-    fun searchPlayer() = playersProxy.searchPlayer()
+    fun loadCurrentPlayer(forceReload: Boolean) = playersProxy.loadCurrentPlayer(forceReload)
 
     @UsedByGodot
-    fun loadCurrentPlayer(forceReload: Boolean) = playersProxy.loadCurrentPlayer(forceReload)
+    fun loadFriends(pageSize: Int, forceReload: Boolean, askForPermission: Boolean) =
+        playersProxy.loadFriends(pageSize, forceReload, askForPermission)
+
+    @UsedByGodot
+    fun searchPlayer() = playersProxy.searchPlayer()
 
     /* SignIn */
     @UsedByGodot
@@ -122,12 +122,7 @@ class GodotGooglePlayGameServices(
 
     /* Snapshots */
     @UsedByGodot
-    fun showSavedGames(
-        title: String,
-        allowAddButton: Boolean,
-        allowDelete: Boolean,
-        maxSnapshots: Int
-    ) = snapshotsProxy.showSavedGames(title, allowAddButton, allowDelete, maxSnapshots)
+    fun loadGame(fileName: String) = snapshotsProxy.loadGame(fileName)
 
     @UsedByGodot
     fun saveGame(
@@ -139,5 +134,10 @@ class GodotGooglePlayGameServices(
     ) = snapshotsProxy.saveGame(fileName, description, saveData, playedTimeMillis.toLong(), progressValue.toLong())
 
     @UsedByGodot
-    fun loadGame(fileName: String) = snapshotsProxy.loadGame(fileName)
+    fun showSavedGames(
+        title: String,
+        allowAddButton: Boolean,
+        allowDelete: Boolean,
+        maxSnapshots: Int
+    ) = snapshotsProxy.showSavedGames(title, allowAddButton, allowDelete, maxSnapshots)
 }
