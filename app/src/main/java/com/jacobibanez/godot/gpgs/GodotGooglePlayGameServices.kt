@@ -3,9 +3,9 @@ package com.jacobibanez.godot.gpgs
 import android.util.Log
 import com.google.android.gms.games.PlayGamesSdk
 import com.jacobibanez.godot.gpgs.achievements.AchievementsProxy
-import com.jacobibanez.godot.gpgs.friends.FriendsProxy
 import com.jacobibanez.godot.gpgs.leaderboards.LeaderboardsProxy
 import com.jacobibanez.godot.gpgs.signin.SignInProxy
+import com.jacobibanez.godot.gpgs.players.PlayersProxy
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.SignalInfo
@@ -19,9 +19,9 @@ class GodotGooglePlayGameServices(
 
     private val tag: String = GodotGooglePlayGameServices::class.java.simpleName
     private val achievementsProxy = AchievementsProxy(godot)
-    private val friendsProxy = FriendsProxy(godot)
     private val signInProxy = SignInProxy(godot)
     private val leaderboardsProxy = LeaderboardsProxy(godot)
+    private val playersProxy = PlayersProxy(godot)
 
     override fun getPluginName(): String {
         return PLUGIN_NAME
@@ -57,25 +57,6 @@ class GodotGooglePlayGameServices(
     fun unlockAchievement(achievementId: String) =
         achievementsProxy.unlockAchievement(achievementId)
 
-    /* Friends */
-    @UsedByGodot
-    fun loadFriends(pageSize: Int, forceReload: Boolean) =
-        friendsProxy.loadFriends(pageSize, forceReload)
-
-    @UsedByGodot
-    fun compareProfile(otherPlayerId: String) = friendsProxy.compareProfile(otherPlayerId)
-
-    @UsedByGodot
-    fun compareProfileWithAlternativeNameHints(
-        otherPlayerId: String,
-        otherPlayerInGameName: String,
-        currentPlayerInGameName: String
-    ) = friendsProxy.compareProfileWithAlternativeNameHints(
-        otherPlayerId,
-        otherPlayerInGameName,
-        currentPlayerInGameName
-    )
-
     /* Leaderboards */
     @UsedByGodot
     fun showAllLeaderboards() = leaderboardsProxy.showAllLeaderboards()
@@ -99,6 +80,31 @@ class GodotGooglePlayGameServices(
     @UsedByGodot
     fun submitScore(leaderboardId: String, score: Int) =
         leaderboardsProxy.submitScore(leaderboardId, score)
+
+    /* Players */
+    @UsedByGodot
+    fun loadFriends(pageSize: Int, forceReload: Boolean, askForPermission: Boolean) =
+        playersProxy.loadFriends(pageSize, forceReload, askForPermission)
+
+    @UsedByGodot
+    fun compareProfile(otherPlayerId: String) = playersProxy.compareProfile(otherPlayerId)
+
+    @UsedByGodot
+    fun compareProfileWithAlternativeNameHints(
+        otherPlayerId: String,
+        otherPlayerInGameName: String,
+        currentPlayerInGameName: String
+    ) = playersProxy.compareProfileWithAlternativeNameHints(
+        otherPlayerId,
+        otherPlayerInGameName,
+        currentPlayerInGameName
+    )
+
+    @UsedByGodot
+    fun searchPlayer() = playersProxy.searchPlayer()
+
+    @UsedByGodot
+    fun loadCurrentPlayer(forceReload: Boolean) = playersProxy.loadCurrentPlayer(forceReload)
 
     /* SignIn */
     @UsedByGodot
