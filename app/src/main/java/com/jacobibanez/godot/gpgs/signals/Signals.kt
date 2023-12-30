@@ -136,16 +136,6 @@ object SignInSignals {
      * @return `true` if the user is authenticated. `false` otherwise.
      */
     val userAuthenticated = SignalInfo("userAuthenticated", Boolean::class.javaObjectType)
-
-    /**
-     * This signal was emitted when calling the [com.jacobibanez.godot.gpgs.GodotAndroidPlugin.signIn] method.
-     * Now the method emits the [com.jacobibanez.godot.gpgs.signals.SignInSignals.userAuthenticated] signal instead.
-     *
-     * @return `true` if the user is signed in. `false` otherwise.
-     *
-     */
-    @Deprecated("This signal is not emitted anymore. The userAuthenticated signal is emitted instead.")
-    val userSignedIn = SignalInfo("userSignedIn", Boolean::class.javaObjectType)
 }
 
 object SnapshotSignals {
