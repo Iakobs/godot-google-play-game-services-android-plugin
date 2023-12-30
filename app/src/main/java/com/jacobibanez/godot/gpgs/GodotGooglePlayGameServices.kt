@@ -7,6 +7,7 @@ import com.jacobibanez.godot.gpgs.leaderboards.LeaderboardsProxy
 import com.jacobibanez.godot.gpgs.signin.SignInProxy
 import com.jacobibanez.godot.gpgs.players.PlayersProxy
 import com.jacobibanez.godot.gpgs.snapshots.SnapshotsProxy
+import com.jacobibanez.godot.gpgs.signals.getSignals
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.SignalInfo
