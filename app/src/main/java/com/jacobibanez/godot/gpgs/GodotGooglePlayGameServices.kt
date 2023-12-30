@@ -6,6 +6,7 @@ import com.jacobibanez.godot.gpgs.achievements.AchievementsProxy
 import com.jacobibanez.godot.gpgs.leaderboards.LeaderboardsProxy
 import com.jacobibanez.godot.gpgs.signin.SignInProxy
 import com.jacobibanez.godot.gpgs.players.PlayersProxy
+import com.jacobibanez.godot.gpgs.snapshots.SnapshotsProxy
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.SignalInfo
@@ -22,6 +23,7 @@ class GodotGooglePlayGameServices(
     private val signInProxy = SignInProxy(godot)
     private val leaderboardsProxy = LeaderboardsProxy(godot)
     private val playersProxy = PlayersProxy(godot)
+    private val snapshotsProxy = SnapshotsProxy(godot)
 
     override fun getPluginName(): String {
         return PLUGIN_NAME
@@ -116,4 +118,25 @@ class GodotGooglePlayGameServices(
 
     @UsedByGodot
     fun signIn() = signInProxy.signIn()
+
+    /* Snapshots */
+    @UsedByGodot
+    fun showSavedGames(
+        title: String,
+        allowAddButton: Boolean,
+        allowDelete: Boolean,
+        maxSnapshots: Int
+    ) = snapshotsProxy.showSavedGames(title, allowAddButton, allowDelete, maxSnapshots)
+
+    @UsedByGodot
+    fun saveGame(
+        fileName: String,
+        description: String,
+        saveData: ByteArray,
+        playedTimeMillis: Long,
+        progressValue: Long
+    ) = snapshotsProxy.saveGame(fileName, description, saveData, playedTimeMillis, progressValue)
+
+    @UsedByGodot
+    fun loadGame(fileName: String) = snapshotsProxy.loadGame(fileName)
 }
