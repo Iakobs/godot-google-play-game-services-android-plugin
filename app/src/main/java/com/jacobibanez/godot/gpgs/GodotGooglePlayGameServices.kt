@@ -18,11 +18,10 @@ class GodotGooglePlayGameServices(
 ) : GodotPlugin(godot) {
 
     private val tag: String = GodotGooglePlayGameServices::class.java.simpleName
-
-    private val signInProxy = SignInProxy(godot)
     private val achievementsProxy = AchievementsProxy(godot)
-    private val leaderboardsProxy = LeaderboardsProxy(godot)
     private val friendsProxy = FriendsProxy(godot)
+    private val signInProxy = SignInProxy(godot)
+    private val leaderboardsProxy = LeaderboardsProxy(godot)
 
     override fun getPluginName(): String {
         return PLUGIN_NAME
@@ -39,16 +38,7 @@ class GodotGooglePlayGameServices(
         isAuthenticated()
     }
 
-    @UsedByGodot
-    fun isAuthenticated() = signInProxy.isAuthenticated()
-
-    @UsedByGodot
-    fun requestServerSideAccess(serverClientId: String, forceRefreshToken: Boolean) =
-        signInProxy.requestServerSideAccess(serverClientId, forceRefreshToken)
-
-    @UsedByGodot
-    fun signIn() = signInProxy.signIn()
-
+    /* Achievements */
     @UsedByGodot
     fun incrementAchievement(achievementId: String, amount: Int) =
         achievementsProxy.incrementAchievement(achievementId, amount)
@@ -67,6 +57,26 @@ class GodotGooglePlayGameServices(
     fun unlockAchievement(achievementId: String) =
         achievementsProxy.unlockAchievement(achievementId)
 
+    /* Friends */
+    @UsedByGodot
+    fun loadFriends(pageSize: Int, forceReload: Boolean) =
+        friendsProxy.loadFriends(pageSize, forceReload)
+
+    @UsedByGodot
+    fun compareProfile(otherPlayerId: String) = friendsProxy.compareProfile(otherPlayerId)
+
+    @UsedByGodot
+    fun compareProfileWithAlternativeNameHints(
+        otherPlayerId: String,
+        otherPlayerInGameName: String,
+        currentPlayerInGameName: String
+    ) = friendsProxy.compareProfileWithAlternativeNameHints(
+        otherPlayerId,
+        otherPlayerInGameName,
+        currentPlayerInGameName
+    )
+
+    /* Leaderboards */
     @UsedByGodot
     fun showAllLeaderboards() = leaderboardsProxy.showAllLeaderboards()
 
@@ -90,21 +100,14 @@ class GodotGooglePlayGameServices(
     fun submitScore(leaderboardId: String, score: Int) =
         leaderboardsProxy.submitScore(leaderboardId, score)
 
+    /* SignIn */
     @UsedByGodot
-    fun loadFriends(pageSize: Int, forceReload: Boolean) =
-        friendsProxy.loadFriends(pageSize, forceReload)
+    fun isAuthenticated() = signInProxy.isAuthenticated()
 
     @UsedByGodot
-    fun compareProfile(otherPlayerId: String) = friendsProxy.compareProfile(otherPlayerId)
+    fun requestServerSideAccess(serverClientId: String, forceRefreshToken: Boolean) =
+        signInProxy.requestServerSideAccess(serverClientId, forceRefreshToken)
 
     @UsedByGodot
-    fun compareProfileWithAlternativeNameHints(
-        otherPlayerId: String,
-        otherPlayerInGameName: String,
-        currentPlayerInGameName: String
-    ) = friendsProxy.compareProfileWithAlternativeNameHints(
-        otherPlayerId,
-        otherPlayerInGameName,
-        currentPlayerInGameName
-    )
+    fun signIn() = signInProxy.signIn()
 }
