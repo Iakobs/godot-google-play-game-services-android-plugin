@@ -3,6 +3,7 @@ package com.jacobibanez.godot.gpgs
 import android.util.Log
 import com.google.android.gms.games.PlayGamesSdk
 import com.jacobibanez.godot.gpgs.achievements.AchievementsProxy
+import com.jacobibanez.godot.gpgs.events.EventsProxy
 import com.jacobibanez.godot.gpgs.leaderboards.LeaderboardsProxy
 import com.jacobibanez.godot.gpgs.signin.SignInProxy
 import com.jacobibanez.godot.gpgs.players.PlayersProxy
@@ -21,6 +22,7 @@ class GodotGooglePlayGameServices(
 
     private val tag: String = GodotGooglePlayGameServices::class.java.simpleName
     private val achievementsProxy = AchievementsProxy(godot)
+    private val eventsProxy = EventsProxy(godot)
     private val signInProxy = SignInProxy(godot)
     private val leaderboardsProxy = LeaderboardsProxy(godot)
     private val playersProxy = PlayersProxy(godot)
@@ -59,6 +61,19 @@ class GodotGooglePlayGameServices(
     @UsedByGodot
     fun unlockAchievement(achievementId: String) =
         achievementsProxy.unlockAchievement(achievementId)
+
+    /* Events */
+    @UsedByGodot
+    fun incrementEvent(eventId: String, amount: Int) =
+        eventsProxy.increment(eventId, amount)
+
+    @UsedByGodot
+    fun loadEvents(forceReload: Boolean) =
+        eventsProxy.load(forceReload)
+
+    @UsedByGodot
+    fun loadEventsByIds(forceReload: Boolean, eventIds: List<String>) =
+        eventsProxy.loadByIds(forceReload, eventIds)
 
     /* Leaderboards */
     @UsedByGodot

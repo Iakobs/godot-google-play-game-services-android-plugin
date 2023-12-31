@@ -12,6 +12,9 @@ fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
     AchievementsSignals.achievementsLoaded,
     AchievementsSignals.achievementRevealed,
 
+    EventsSignals.eventsLoaded,
+    EventsSignals.eventsLoadedByIds,
+
     LeaderboardSignals.scoreSubmitted,
     LeaderboardSignals.scoreLoaded,
     LeaderboardSignals.allLeaderboardsLoaded,
@@ -55,6 +58,17 @@ object AchievementsSignals {
      */
     val achievementRevealed =
         SignalInfo("achievementRevealed", Boolean::class.javaObjectType, String::class.java)
+}
+
+/**
+ * Signals emitted by Events methods.
+ */
+object EventsSignals {
+    val eventsLoaded =
+        SignalInfo("eventsLoaded", String::class.java)
+
+    val eventsLoadedByIds =
+        SignalInfo("eventsLoadedByIds", String::class.java)
 }
 
 /**
