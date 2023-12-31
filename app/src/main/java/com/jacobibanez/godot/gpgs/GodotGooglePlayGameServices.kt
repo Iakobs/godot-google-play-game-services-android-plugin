@@ -72,7 +72,7 @@ class GodotGooglePlayGameServices(
         eventsProxy.load(forceReload)
 
     @UsedByGodot
-    fun loadEventsByIds(forceReload: Boolean, eventIds: List<String>) =
+    fun loadEventsByIds(forceReload: Boolean, eventIds: Array<String>) =
         eventsProxy.loadByIds(forceReload, eventIds)
 
     /* Leaderboards */
