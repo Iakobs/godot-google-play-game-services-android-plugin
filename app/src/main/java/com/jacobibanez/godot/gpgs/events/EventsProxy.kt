@@ -60,9 +60,9 @@ class EventsProxy(
         }
     }
 
-    fun loadByIds(forceReload: Boolean, eventIds: List<String>) {
+    fun loadByIds(forceReload: Boolean, eventIds: Array<String>) {
         Log.d(tag, "Retrieving events for from eventIds $eventIds (forceReload = $forceReload)")
-        eventsClient.loadByIds(forceReload, *(eventIds.toTypedArray())).addOnCompleteListener { task ->
+        eventsClient.loadByIds(forceReload, *(eventIds)).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(
                     tag,
