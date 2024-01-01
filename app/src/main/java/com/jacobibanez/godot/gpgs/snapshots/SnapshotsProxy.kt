@@ -17,6 +17,7 @@ import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.conflictEmitted
 import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.gameLoaded
 import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.gameSaved
 import org.godotengine.godot.Godot
+import org.godotengine.godot.Dictionary
 import org.godotengine.godot.plugin.GodotPlugin.emitSignal
 
 class SnapshotsProxy(
@@ -105,12 +106,20 @@ class SnapshotsProxy(
                     return@continueWith snapshot
                 }
             }.addOnCompleteListener { task ->
-                task.result?.let { snapshot ->
+                if (task.isSuccessful && task.result != null) {
+                    val snapshot = task.result!!
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
                         gameLoaded,
                         fromSnapshot(godot, snapshot)
+                    )
+                } else {
+                    emitSignal(
+                        godot,
+                        PLUGIN_NAME,
+                        gameLoaded,
+                        Dictionary()
                     )
                 }
             }
