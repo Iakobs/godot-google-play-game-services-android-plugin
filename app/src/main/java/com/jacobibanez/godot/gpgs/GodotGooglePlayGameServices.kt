@@ -96,7 +96,7 @@ class GodotGooglePlayGameServices(
     )
 
     @UsedByGodot
-    fun submitScore(leaderboardId: String, score: Int) =
+    fun submitScore(leaderboardId: String, score: Float) =
         leaderboardsProxy.submitScore(leaderboardId, score)
 
     @UsedByGodot
