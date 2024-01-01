@@ -5,12 +5,9 @@ import org.godotengine.godot.plugin.SignalInfo
 
 /** @suppress */
 fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
-    SignInSignals.userAuthenticated,
-    SignInSignals.requestedServerSideAccess,
-
-    AchievementsSignals.achievementUnlocked,
     AchievementsSignals.achievementsLoaded,
     AchievementsSignals.achievementRevealed,
+    AchievementsSignals.achievementUnlocked,
 
     EventsSignals.eventsLoaded,
     EventsSignals.eventsLoadedByIds,
@@ -20,9 +17,12 @@ fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
     LeaderboardSignals.allLeaderboardsLoaded,
     LeaderboardSignals.leaderboardLoaded,
 
+    PlayerSignals.currentPlayerLoaded,
     PlayerSignals.friendsLoaded,
     PlayerSignals.playerSearched,
-    PlayerSignals.currentPlayerLoaded,
+
+    SignInSignals.userAuthenticated,
+    SignInSignals.requestedServerSideAccess,
 
     SnapshotSignals.gameSaved,
     SnapshotSignals.gameLoaded,
