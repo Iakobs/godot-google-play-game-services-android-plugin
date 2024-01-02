@@ -12,6 +12,7 @@ import com.google.android.gms.games.SnapshotsClient.RESOLUTION_POLICY_MOST_RECEN
 import com.google.android.gms.games.SnapshotsClient.SnapshotConflict
 import com.google.android.gms.games.snapshot.SnapshotMetadata
 import com.google.android.gms.games.snapshot.SnapshotMetadataChange
+import com.google.gson.Gson
 import com.jacobibanez.godot.gpgs.PLUGIN_NAME
 import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.conflictEmitted
 import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.gameLoaded
@@ -112,14 +113,14 @@ class SnapshotsProxy(
                         godot,
                         PLUGIN_NAME,
                         gameLoaded,
-                        fromSnapshot(godot, snapshot)
+                        Gson().toJson(fromSnapshot(godot, snapshot))
                     )
                 } else {
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
                         gameLoaded,
-                        Dictionary()
+                        Gson().toJson(Dictionary())
                     )
                 }
             }
@@ -138,7 +139,7 @@ class SnapshotsProxy(
                 godot,
                 PLUGIN_NAME,
                 conflictEmitted,
-                fromConflict(godot, it)
+                Gson().toJson(fromConflict(godot, it))
             )
         }
     }

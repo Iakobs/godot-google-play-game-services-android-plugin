@@ -1,6 +1,5 @@
 package com.jacobibanez.godot.gpgs.signals
 
-import org.godotengine.godot.Dictionary
 import org.godotengine.godot.plugin.SignalInfo
 
 /** @suppress */
@@ -179,16 +178,16 @@ object SnapshotSignals {
      * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadGame] method
      * or after selecting a saved game in the window opened by the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.showSavedGames] method.
      *
-     * @return A [Dictionary] representing a [com.google.android.gms.games.snapshot.Snapshot](https://developers.google.com/android/reference/com/google/android/gms/games/snapshot/Snapshot).
+     * @return A JSON representing a [com.google.android.gms.games.snapshot.Snapshot](https://developers.google.com/android/reference/com/google/android/gms/games/snapshot/Snapshot).
      */
-    val gameLoaded = SignalInfo("gameLoaded", Dictionary::class.java)
+    val gameLoaded = SignalInfo("gameLoaded", String::class.java)
 
     /**
      * This signal is emitted when saving or loading a game, whenever a conflict occurs.
      *
-     * @return A [Dictionary] representing a [com.google.android.gms.games.SnapshotsClient.SnapshotConflict](https://developers.google.com/android/reference/com/google/android/gms/games/SnapshotsClient.SnapshotConflict).
+     * @return A JSON representing a [com.google.android.gms.games.SnapshotsClient.SnapshotConflict](https://developers.google.com/android/reference/com/google/android/gms/games/SnapshotsClient.SnapshotConflict).
      */
-    val conflictEmitted = SignalInfo("conflictEmitted", Dictionary::class.java)
+    val conflictEmitted = SignalInfo("conflictEmitted", String::class.java)
 }
 
 object HelperSignals {
