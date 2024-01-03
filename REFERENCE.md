@@ -34,12 +34,12 @@ func _on_allLeaderboardsLoaded(leaderboards: String) -> void:
 This signal is emitted when calling the `loadAchievements` method.
 Returns A JSON string with a list of [Achievement](https://developers.google.com/android/reference/com/google/android/gms/games/achievement/Achievement).
 
-#### achievementRevealed(revealed: bool, achievement_id: String)
+#### achievementRevealed(revealed: bool, achievementId: String)
 
 This signal is emitted when calling the `revealAchievement` method.
 Returns `true` if the achievement is revealed and `false` otherwise. Also returns the id of the achievement.
 
-#### achievementUnlocked(is_unlocked: bool, achievement_id: String)
+#### achievementUnlocked(isUnlocked: bool, achievementId: String)
 
 This signal is emitted when calling the `incrementAchievement` or `unlockAchievement` methods.
 Returns `true` if the achievement is unlocked or `false` otherwise. Also returns the id of the achievement.
@@ -75,8 +75,8 @@ Returns A JSON string with a list of [Leaderboard](https://developers.google.com
 
 #### leaderboardLoaded(leaderboard: String)
 
-This signal is emitted when calling the [loadLeaderboard] method.
-Returns A JSON string with a [com.google.android.gms.games.leaderboard.Leaderboard](https://developers.google.com/android/reference/com/google/android/gms/games/leaderboard/Leaderboard).
+This signal is emitted when calling the `loadLeaderboard` method.
+Returns A JSON string with a [Leaderboard](https://developers.google.com/android/reference/com/google/android/gms/games/leaderboard/Leaderboard).
 
 ### Players
 
