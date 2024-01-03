@@ -4,7 +4,7 @@
 [![Godot version](https://img.shields.io/badge/Godot%20Engine-3.5.3-blue.svg)](https://github.com/godotengine/godot/)
 [![Google Play Game Services version](https://img.shields.io/badge/Play%20Games%20Services%20v2-17.0.0-green.svg)](https://developers.google.com/games/services/android/quickstart)
 
-> ⚠️ A **Godot 4.x** version of this plugin can be found [here](https://github.com/Iakobs/godot-play-game-services)!
+> ⚠️ A **Godot 4.2+** version of this plugin can be found [here](https://github.com/Iakobs/godot-play-game-services)!
 
 > ⚠️ This plugin has a [GDScript plugin wrapper](https://github.com/Iakobs/godot-google-play-game-services-plugin) addon that provides a global singleton with **code completion** out-of-the-box, amongst other things. While not required, the Godot plugin will help you integrate this Android native plugin in your project (and it also comes with a demo project to showcase the features).
 
@@ -37,7 +37,7 @@ As the task to update cgisca's plugin involved learning how to use the new Googl
 
 ## Purpose
 
-This is an **Android plugin** for **Godot 3.x** to integrate the new revamp of [Google Play Game Services v2](https://developers.google.com/games/services) in your games.
+This is an **Android plugin** for **Godot 3.5+** to integrate the new revamp of [Google Play Game Services v2](https://developers.google.com/games/services) in your games.
 
 Sadly, it is not an **exhaustive integration** because Google Play Game Services has many APIs and some of the DTOs being returned are not compatible with Godot or difficult to map from Java to GDScript.
 
