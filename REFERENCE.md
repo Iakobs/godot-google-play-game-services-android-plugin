@@ -133,7 +133,7 @@ Increments an achievement by the given number of steps.
 The achievement must be an incremental achievement.
 Once an achievement reaches at least the maximum number of steps, it will be unlocked automatically.
 Any further increments will be ignored.
-This is the fire-and-forget form of the API (no signals are emitted).
+Emits `achievementUnlocked`.
 
 #### loadAchievements(forceReload: bool)
 
