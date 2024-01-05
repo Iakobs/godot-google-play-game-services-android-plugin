@@ -5,8 +5,8 @@ import org.godotengine.godot.plugin.SignalInfo
 /** @suppress */
 fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
     AchievementsSignals.achievementsLoaded,
-    AchievementsSignals.achievementRevealed,
-    AchievementsSignals.achievementUnlocked,
+    AchievementsSignals.achievementsRevealed,
+    AchievementsSignals.achievementsUnlocked,
 
     EventsSignals.eventsLoaded,
     EventsSignals.eventsLoadedByIds,
@@ -35,28 +35,31 @@ fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
  */
 object AchievementsSignals {
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.incrementAchievement]
-     * or [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.unlockAchievement] methods.
+     * This signal is emitted when calling the
+     * [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.achievementsIncrement],
+     * [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.achievementsSetSteps] or
+     * [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.achievementsUnlock] methods.
      *
      * @return `true` if the achievement is unlocked. `false` otherwise. Also returns the id of the achievement.
      */
-    val achievementUnlocked =
-        SignalInfo("achievementUnlocked", Boolean::class.javaObjectType, String::class.java)
+    val achievementsUnlocked =
+        SignalInfo("achievementsUnlocked", Boolean::class.javaObjectType, String::class.java)
 
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadAchievements] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.achievementsLoad] method.
      *
      * @return A JSON with a list of [com.google.android.gms.games.achievement.Achievement](https://developers.google.com/android/reference/com/google/android/gms/games/achievement/Achievement).
      */
-    val achievementsLoaded = SignalInfo("achievementsLoaded", String::class.java)
+    val achievementsLoaded =
+        SignalInfo("achievementsLoaded", String::class.java)
 
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.revealAchievement] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.achievementsReveal] method.
      *
      * @return `true` if the achievement is revealed. `false` otherwise. Also returns the id of the achievement.
      */
-    val achievementRevealed =
-        SignalInfo("achievementRevealed", Boolean::class.javaObjectType, String::class.java)
+    val achievementsRevealed =
+        SignalInfo("achievementsRevealed", Boolean::class.javaObjectType, String::class.java)
 }
 
 /**

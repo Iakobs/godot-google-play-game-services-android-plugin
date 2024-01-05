@@ -45,22 +45,26 @@ class GodotGooglePlayGameServices(
 
     /* Achievements */
     @UsedByGodot
-    fun incrementAchievement(achievementId: String, amount: Int) =
-        achievementsProxy.incrementAchievement(achievementId, amount)
+    fun achievementsIncrement(achievementId: String, amount: Int, immediate: Boolean) =
+        achievementsProxy.increment(achievementId, amount, immediate)
 
     @UsedByGodot
-    fun loadAchievements(forceReload: Boolean) = achievementsProxy.loadAchievements(forceReload)
+    fun achievementsLoad(forceReload: Boolean) = achievementsProxy.load(forceReload)
 
     @UsedByGodot
-    fun revealAchievement(achievementId: String) =
-        achievementsProxy.revealAchievement(achievementId)
+    fun achievementsReveal(achievementId: String, immediate: Boolean) =
+        achievementsProxy.reveal(achievementId, immediate)
 
     @UsedByGodot
-    fun showAchievements() = achievementsProxy.showAchievements()
+    fun achievementsSetSteps(achievementId: String, amount: Int, immediate: Boolean) =
+        achievementsProxy.setSteps(achievementId, amount, immediate)
 
     @UsedByGodot
-    fun unlockAchievement(achievementId: String) =
-        achievementsProxy.unlockAchievement(achievementId)
+    fun achievementsShow() = achievementsProxy.show()
+
+    @UsedByGodot
+    fun achievementsUnlock(achievementId: String, immediate: Boolean) =
+        achievementsProxy.unlock(achievementId, immediate)
 
     /* Events */
     @UsedByGodot

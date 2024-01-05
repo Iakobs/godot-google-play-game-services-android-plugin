@@ -7,8 +7,8 @@ import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.achievement.AchievementBuffer
 import com.google.gson.Gson
 import com.jacobibanez.godot.gpgs.PLUGIN_NAME
-import com.jacobibanez.godot.gpgs.signals.AchievementsSignals.achievementRevealed
-import com.jacobibanez.godot.gpgs.signals.AchievementsSignals.achievementUnlocked
+import com.jacobibanez.godot.gpgs.signals.AchievementsSignals.achievementsRevealed
+import com.jacobibanez.godot.gpgs.signals.AchievementsSignals.achievementsUnlocked
 import com.jacobibanez.godot.gpgs.signals.AchievementsSignals.achievementsLoaded
 import org.godotengine.godot.Dictionary
 import org.godotengine.godot.Godot
@@ -24,8 +24,14 @@ class AchievementsProxy(
 
     private val showAchievementsRequestCode = 9001
 
-    fun incrementAchievement(achievementId: String, amount: Int) {
-        Log.d(tag, "Incrementing achievement with id $achievementId in an amount of $amount")
+    fun increment(achievementId: String, amount: Int, immediate: Boolean) {
+        val immediateText = if (immediate) "(immediately)" else ""
+        Log.d(tag, "Incrementing achievement with id $achievementId in an amount of $amount $immediateText")
+
+        if (!immediate) {
+            achievementsClient.increment(achievementId, amount)
+        }
+
         achievementsClient.incrementImmediate(achievementId, amount).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(
@@ -35,7 +41,7 @@ class AchievementsProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    achievementUnlocked,
+                    achievementsUnlocked,
                     task.result,
                     achievementId
                 )
@@ -48,7 +54,7 @@ class AchievementsProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    achievementUnlocked,
+                    achievementsUnlocked,
                     false,
                     achievementId
                 )
@@ -56,7 +62,7 @@ class AchievementsProxy(
         }
     }
 
-    fun loadAchievements(forceReload: Boolean) {
+    fun load(forceReload: Boolean) {
         Log.d(tag, "Loading achievements")
         achievementsClient.load(forceReload).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -91,15 +97,22 @@ class AchievementsProxy(
         }
     }
 
-    fun revealAchievement(achievementId: String) {
-        Log.d(tag, "Revealing achievement with id $achievementId")
+    fun reveal(achievementId: String, immediate: Boolean) {
+        val immediateText = if (immediate) "(immediately)" else ""
+        Log.d(tag, "Revealing achievement with id $achievementId $immediateText")
+
+        if (!immediate) {
+            achievementsClient.reveal(achievementId)
+            return
+        }
+
         achievementsClient.revealImmediate(achievementId).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(tag, "Achievement $achievementId revealed")
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    achievementRevealed,
+                    achievementsRevealed,
                     true,
                     achievementId
                 )
@@ -112,7 +125,7 @@ class AchievementsProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    achievementRevealed,
+                    achievementsRevealed,
                     false,
                     achievementId
                 )
@@ -120,7 +133,46 @@ class AchievementsProxy(
         }
     }
 
-    fun showAchievements() {
+    fun setSteps(achievementId: String, amount: Int, immediate: Boolean) {
+        val immediateText = if (immediate) "(immediately)" else ""
+        Log.d(tag, "Setting steps for achievement with id $achievementId in an amount of $amount $immediateText")
+
+        if (!immediate) {
+            achievementsClient.setSteps(achievementId, amount)
+            return
+        }
+
+        achievementsClient.setStepsImmediate(achievementId, amount).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(
+                    tag,
+                    "Achievement $achievementId steps set successfully. Unlocked? ${task.result}"
+                )
+                emitSignal(
+                    godot,
+                    PLUGIN_NAME,
+                    achievementsUnlocked,
+                    task.result,
+                    achievementId
+                )
+            } else {
+                Log.e(
+                    tag,
+                    "Achievement $achievementId not incremented. Cause: ${task.exception}",
+                    task.exception
+                )
+                emitSignal(
+                    godot,
+                    PLUGIN_NAME,
+                    achievementsUnlocked,
+                    false,
+                    achievementId
+                )
+            }
+        }
+    }
+
+    fun show() {
         Log.d(tag, "Showing achievements")
         achievementsClient.achievementsIntent.addOnSuccessListener { intent ->
             ActivityCompat.startActivityForResult(
@@ -130,15 +182,22 @@ class AchievementsProxy(
         }
     }
 
-    fun unlockAchievement(achievementId: String) {
-        Log.d(tag, "Unlocking achievement with id $achievementId")
+    fun unlock(achievementId: String, immediate: Boolean) {
+        val immediateText = if (immediate) "(immediately)" else ""
+        Log.d(tag, "Unlocking achievement with id $achievementId $immediateText")
+
+        if (!immediate) {
+            achievementsClient.unlock(achievementId)
+            return
+        }
+
         achievementsClient.unlockImmediate(achievementId).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(tag, "Achievement with id $achievementId unlocked")
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    achievementUnlocked,
+                    achievementsUnlocked,
                     true,
                     achievementId
                 )
@@ -151,7 +210,7 @@ class AchievementsProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    achievementUnlocked,
+                    achievementsUnlocked,
                     false,
                     achievementId
                 )

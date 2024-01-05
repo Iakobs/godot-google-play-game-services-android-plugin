@@ -31,18 +31,20 @@ func _on_allLeaderboardsLoaded(leaderboards: String) -> void:
 
 #### achievementsLoaded(achievements: String)
 
-This signal is emitted when calling the `loadAchievements` method.
+This signal is emitted when calling the `achievementsLoad` method.
 Returns A JSON string with a list of [Achievement](https://developers.google.com/android/reference/com/google/android/gms/games/achievement/Achievement).
 
-#### achievementRevealed(revealed: bool, achievementId: String)
+#### achievementsRevealed(revealed: bool, achievementId: String)
 
-This signal is emitted when calling the `revealAchievement` method.
-Returns `true` if the achievement is revealed and `false` otherwise. Also returns the id of the achievement.
+This signal is emitted when calling the `achievementsReveal` method.
+Returns `true` if the achievement is revealed and `false` otherwise.
+Also returns the id of the achievement.
 
-#### achievementUnlocked(isUnlocked: bool, achievementId: String)
+#### achievementsUnlocked(isUnlocked: bool, achievementId: String)
 
-This signal is emitted when calling the `incrementAchievement` or `unlockAchievement` methods.
-Returns `true` if the achievement is unlocked or `false` otherwise. Also returns the id of the achievement.
+This signal is emitted when calling the `achievementsIncrement`, `achievementsSetSteps` or `achievementsUnlock` methods.
+Returns `true` if the achievement is unlocked or `false` otherwise.
+Also returns the id of the achievement.
 
 ### Events
 
@@ -127,29 +129,41 @@ Returns A JSON string representing a [SnapshotConflict](https://developers.googl
 
 ### Achievements
 
-#### incrementAchievement(achievementId: String, amount: int)
+#### achievementsIncrement(achievementId: String, amount: int, immediate: bool)
 
 Increments an achievement by the given number of steps.
 The achievement must be an incremental achievement.
 Once an achievement reaches at least the maximum number of steps, it will be unlocked automatically.
 Any further increments will be ignored.
-Emits `achievementUnlocked`.
+Emits `achievementsUnlocked`.
 
-#### loadAchievements(forceReload: bool)
+#### achievementsLoad(forceReload: bool)
 
-Loads the achievement data for the currently signed-in player. Emits `achievementsLoaded`.
+Loads the achievement data for the currently signed-in player.
+Emits `achievementsLoaded`.
 
-#### revealAchievement(achievementId: String)
+#### achievementsReveal(achievementId: String, immediate: bool)
 
-Reveals a hidden achievement to the currently signed-in player. If the achievement has already been unlocked, this will have no effect. Emits `achievementRevealed`.
+Reveals a hidden achievement to the currently signed-in player.
+If the achievement has already been unlocked, this will have no effect.
+Emits `achievementRevealed` if `immediate` is `true`.
+
+#### achievementsSetSteps(achievementId: String, amount: int, immediate: bool)
+
+Sets an achievement to have at least the given number of steps completed.
+The achievement must be an incremental achievement.
+Once an achievement reaches at least the maximum number of steps, it will be unlocked automatically.
+Emits `achievementsUnlocked` if `immediate` is `true`.
 
 #### showAchievements()
 
 Shows a native popup to browse game achievements of the currently signed-in player.
 
-#### unlockAchievement(achievementId: String)
+#### unlockAchievement(achievementId: String, immediate: bool)
 
-Unlocks an achievement for the currently signed in player. If the achievement is hidden this will reveal it to the player. Emits `achievementUnlocked`.
+Unlocks an achievement for the currently signed in player.
+If the achievement is hidden this will reveal it to the player.
+Emits `achievementsUnlocked` if `immediate` is `true`.
 
 ### Events
 
