@@ -68,15 +68,15 @@ class GodotGooglePlayGameServices(
 
     /* Events */
     @UsedByGodot
-    fun incrementEvent(eventId: String, amount: Int) =
+    fun eventsIncrement(eventId: String, amount: Int) =
         eventsProxy.increment(eventId, amount)
 
     @UsedByGodot
-    fun loadEvents(forceReload: Boolean) =
+    fun eventsLoad(forceReload: Boolean) =
         eventsProxy.load(forceReload)
 
     @UsedByGodot
-    fun loadEventsByIds(forceReload: Boolean, eventIds: Array<String>) =
+    fun eventsLoadByIds(forceReload: Boolean, eventIds: Array<String>) =
         eventsProxy.loadByIds(forceReload, eventIds)
 
     /* Leaderboards */

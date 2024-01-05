@@ -50,12 +50,12 @@ Also returns the id of the achievement.
 
 #### eventsLoaded(events: String)
 
-This signal is emitted when calling the `loadEvents` method.
+This signal is emitted when calling the `eventsLoad` method.
 Returns A JSON string with the list of [Event](https://developers.google.com/android/reference/com/google/android/gms/games/event/Event).
 
 #### eventsLoadedByIds(events: String)
 
-This signal is emitted when calling the `loadEventsByIds` method.
+This signal is emitted when calling the `eventsLoadByIds` method.
 Returns A JSON string with the list of [Event](https://developers.google.com/android/reference/com/google/android/gms/games/event/Event).
 
 ### Leaderboards
@@ -167,16 +167,16 @@ Emits `achievementsUnlocked` if `immediate` is `true`.
 
 ### Events
 
-#### incrementEvent(eventId: String, amount: int)
+#### eventsIncrement(eventId: String, amount: int)
 
 Increments an event specified by eventId by the given number of steps.
 This is the fire-and-forget form of the API (no signals are emitted).
 
-#### loadEvents(forceReload: bool)
+#### eventsLoad(forceReload: bool)
 
 Loads the event data for the currently signed-in player. Emits `eventsLoaded`.
 
-#### loadEventsByIds(forceReload: bool, eventIds: Array[String])
+#### eventsLoadByIds(forceReload: bool, eventIds: Array[String])
 
 Loads the event data for the currently signed-in player for the specified ids. Emits `eventsLoadedByIds`.
 

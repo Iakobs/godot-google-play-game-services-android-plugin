@@ -67,7 +67,7 @@ object AchievementsSignals {
  */
 object EventsSignals {
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadEvents] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.eventsLoad] method.
      *
      * @return A JSON with the list of [com.google.android.gms.games.event.Event](https://developers.google.com/android/reference/com/google/android/gms/games/event/Event).
      */
@@ -75,7 +75,7 @@ object EventsSignals {
         SignalInfo("eventsLoaded", String::class.java)
 
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadEventsByIds] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.eventsLoadByIds] method.
      *
      * @return A JSON with the list of [com.google.android.gms.games.event.Event](https://developers.google.com/android/reference/com/google/android/gms/games/event/Event).
      */
