@@ -81,39 +81,39 @@ class GodotGooglePlayGameServices(
 
     /* Leaderboards */
     @UsedByGodot
-    fun showAllLeaderboards() = leaderboardsProxy.showAllLeaderboards()
+    fun leaderboardsShowAll() = leaderboardsProxy.showAll()
 
     @UsedByGodot
-    fun showLeaderboard(leaderboardId: String) = leaderboardsProxy.showLeaderboard(leaderboardId)
+    fun leaderboardsShow(leaderboardId: String) = leaderboardsProxy.show(leaderboardId)
 
     @UsedByGodot
-    fun showLeaderboardForTimeSpan(leaderboardId: String, timeSpan: Int) =
-        leaderboardsProxy.showLeaderboardForTimeSpan(leaderboardId, timeSpan)
+    fun leaderboardsShowForTimeSpan(leaderboardId: String, timeSpan: Int) =
+        leaderboardsProxy.showForTimeSpan(leaderboardId, timeSpan)
 
     @UsedByGodot
-    fun showLeaderboardForTimeSpanAndCollection(
+    fun leaderboardsShowForTimeSpanAndCollection(
         leaderboardId: String,
         timeSpan: Int,
         collection: Int
-    ) = leaderboardsProxy.showLeaderboardForTimeSpanAndCollection(
+    ) = leaderboardsProxy.showForTimeSpanAndCollection(
         leaderboardId, timeSpan, collection
     )
 
     @UsedByGodot
-    fun submitScore(leaderboardId: String, score: Float) =
+    fun leaderboardsSubmitScore(leaderboardId: String, score: Float) =
         leaderboardsProxy.submitScore(leaderboardId, score)
 
     @UsedByGodot
-    fun loadPlayerScore(leaderboardId: String, timeSpan: Int, collection: Int) =
+    fun leaderboardsLoadPlayerScore(leaderboardId: String, timeSpan: Int, collection: Int) =
         leaderboardsProxy.loadPlayerScore(leaderboardId, timeSpan, collection)
 
     @UsedByGodot
-    fun loadAllLeaderboards(forceReload: Boolean) =
-        leaderboardsProxy.loadAllLeaderboards(forceReload)
+    fun leaderboardsLoadAll(forceReload: Boolean) =
+        leaderboardsProxy.loadAll(forceReload)
 
     @UsedByGodot
-    fun loadLeaderboard(leaderboardId: String, forceReload: Boolean) =
-        leaderboardsProxy.loadLeaderboard(leaderboardId, forceReload)
+    fun leaderboardsLoad(leaderboardId: String, forceReload: Boolean) =
+        leaderboardsProxy.load(leaderboardId, forceReload)
 
     /* Players */
     @UsedByGodot

@@ -18,7 +18,7 @@ These signals belong to the native plugin singleton and can be used by connectin
 ```gdscript
 func _ready() -> void:
     var plugin: JNISingleton = Engine.get_singleton("GodotGooglePlayGameServices")
-    plugin.connect("allLeaderboardsLoaded", self, "_on_allLeaderboardsLoaded")
+    plugin.connect("leaderboardsAllLoaded", self, "_on_allLeaderboardsLoaded")
     plugin.loadAllLeaderboards(true)
 
 
@@ -60,24 +60,24 @@ Returns A JSON string with the list of [Event](https://developers.google.com/and
 
 ### Leaderboards
 
-#### scoreSubmitted(submitted: bool, leaderboardId: String)
+#### leaderboardsScoreSubmitted(submitted: bool, leaderboardId: String)
 
-This signal is emitted when calling the `submitScore` method.
+This signal is emitted when calling the `leaderboardsSubmitScore` method.
 Returns `true` if the score is submitted. `false` otherwise. Also returns the id of the leaderboard.
 
-#### scoreLoaded(leaderboardId: String, score: String)
+#### leaderboardsScoreLoaded(leaderboardId: String, score: String)
 
-This signal is emitted when calling the `loadPlayerScore` method.
+This signal is emitted when calling the `leaderboardsLoadPlayerScore` method.
 Return The leaderboard id and a JSON string with a [LeaderboardScore](https://developers.google.com/android/reference/com/google/android/gms/games/leaderboard/LeaderboardScore).
 
-#### allLeaderboardsLoaded(leaderboards: String)
+#### leaderboardsAllLoaded(leaderboards: String)
 
-This signal is emitted when calling the `loadAllLeaderboards` method.
+This signal is emitted when calling the `leaderboardsLoadAll` method.
 Returns A JSON string with a list of [Leaderboard](https://developers.google.com/android/reference/com/google/android/gms/games/leaderboard/Leaderboard).
 
-#### leaderboardLoaded(leaderboard: String)
+#### leaderboardsLoaded(leaderboard: String)
 
-This signal is emitted when calling the `loadLeaderboard` method.
+This signal is emitted when calling the `leaderboardsLoad` method.
 Returns A JSON string with a [Leaderboard](https://developers.google.com/android/reference/com/google/android/gms/games/leaderboard/Leaderboard).
 
 ### Players
@@ -200,19 +200,19 @@ Shows a native popup to browse the specified leaderboard for the specified time 
 
 #### submitScore(leaderboardId: String, score: float)
 
-Submits a score to the specified leaderboard. Emits `scoreSubmitted`.
+Submits a score to the specified leaderboard. Emits `leaderboardsScoreSubmitted`.
 
 #### loadPlayerScore(leaderboardId: String, timeSpan: int, collection: int)
 
-Loads the player's score for the specified leaderboard. Emits `scoreLoaded`.
+Loads the player's score for the specified leaderboard. Emits `leaderboardsScoreLoaded`.
 
 #### loadAllLeaderboards(forceReload: bool)
 
-Loads the leaderboard data for the currently signed-in player. Emits `allLeaderboardsLoaded`.
+Loads the leaderboard data for the currently signed-in player. Emits `leaderboardsAllLoaded`.
 
 #### loadLeaderboard(leaderboardId: String, forceReload: bool)
 
-Loads the leaderboard data for the currently signed-in player. Emits `leaderboardLoaded`
+Loads the leaderboard data for the currently signed-in player. Emits `leaderboardsLoaded`
 
 ### Players
 

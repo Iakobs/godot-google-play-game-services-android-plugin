@@ -7,10 +7,10 @@ import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.leaderboard.LeaderboardBuffer
 import com.google.gson.Gson
 import com.jacobibanez.godot.gpgs.PLUGIN_NAME
-import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.allLeaderboardsLoaded
-import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardLoaded
-import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.scoreLoaded
-import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.scoreSubmitted
+import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsAllLoaded
+import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsLoaded
+import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsScoreLoaded
+import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsScoreSubmitted
 import org.godotengine.godot.Dictionary
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin.emitSignal
@@ -28,7 +28,7 @@ class LeaderboardsProxy(
     private val showLeaderboardForTimeSpanRequestCode = 9004
     private val showLeaderboardForTimeSpanAndCollectionRequestCode = 9005
 
-    fun showAllLeaderboards() {
+    fun showAll() {
         Log.d(tag, "Showing all leaderboards")
         leaderboardsClient.allLeaderboardsIntent.addOnSuccessListener { intent ->
             ActivityCompat.startActivityForResult(
@@ -40,7 +40,7 @@ class LeaderboardsProxy(
         }
     }
 
-    fun showLeaderboard(leaderboardId: String) {
+    fun show(leaderboardId: String) {
         Log.d(tag, "Showing leaderboard with id $leaderboardId")
         leaderboardsClient.getLeaderboardIntent(leaderboardId).addOnSuccessListener { intent ->
             ActivityCompat.startActivityForResult(
@@ -52,7 +52,7 @@ class LeaderboardsProxy(
         }
     }
 
-    fun showLeaderboardForTimeSpan(leaderboardId: String, timeSpan: Int) {
+    fun showForTimeSpan(leaderboardId: String, timeSpan: Int) {
         Log.d(
             tag,
             "Showing leaderboard with id $leaderboardId for time span ${TimeSpan.fromSpan(timeSpan)?.name}"
@@ -68,7 +68,7 @@ class LeaderboardsProxy(
             }
     }
 
-    fun showLeaderboardForTimeSpanAndCollection(
+    fun showForTimeSpanAndCollection(
         leaderboardId: String,
         timeSpan: Int,
         collection: Int
@@ -99,7 +99,7 @@ class LeaderboardsProxy(
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
-                        scoreSubmitted,
+                        leaderboardsScoreSubmitted,
                         true,
                         leaderboardId
                     )
@@ -112,7 +112,7 @@ class LeaderboardsProxy(
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
-                        scoreSubmitted,
+                        leaderboardsScoreSubmitted,
                         false,
                         leaderboardId
                     )
@@ -135,7 +135,7 @@ class LeaderboardsProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    scoreLoaded,
+                    leaderboardsScoreLoaded,
                     leaderboardId,
                     Gson().toJson(score)
                 )
@@ -144,7 +144,7 @@ class LeaderboardsProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    scoreLoaded,
+                    leaderboardsScoreLoaded,
                     leaderboardId,
                     Gson().toJson(null)
                 )
@@ -152,7 +152,7 @@ class LeaderboardsProxy(
         }
     }
 
-    fun loadAllLeaderboards(forceReload: Boolean) {
+    fun loadAll(forceReload: Boolean) {
         Log.d(tag, "Loading all leaderboards")
         leaderboardsClient.loadLeaderboardMetadata(forceReload).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -172,7 +172,7 @@ class LeaderboardsProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    allLeaderboardsLoaded,
+                    leaderboardsAllLoaded,
                     Gson().toJson(leaderboards)
                 )
             } else {
@@ -180,14 +180,14 @@ class LeaderboardsProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    allLeaderboardsLoaded,
+                    leaderboardsAllLoaded,
                     Gson().toJson(emptyList<Dictionary>())
                 )
             }
         }
     }
 
-    fun loadLeaderboard(leaderboardId: String, forceReload: Boolean) {
+    fun load(leaderboardId: String, forceReload: Boolean) {
         Log.d(tag, "Loading leaderboard $leaderboardId")
         leaderboardsClient.loadLeaderboardMetadata(leaderboardId, forceReload)
             .addOnCompleteListener { task ->
@@ -202,7 +202,7 @@ class LeaderboardsProxy(
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
-                        leaderboardLoaded,
+                        leaderboardsLoaded,
                         Gson().toJson(leaderboard)
                     )
                 } else {
@@ -214,7 +214,7 @@ class LeaderboardsProxy(
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
-                        leaderboardLoaded,
+                        leaderboardsLoaded,
                         Gson().toJson(null)
                     )
                 }

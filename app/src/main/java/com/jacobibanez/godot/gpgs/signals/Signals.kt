@@ -11,10 +11,10 @@ fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
     EventsSignals.eventsLoaded,
     EventsSignals.eventsLoadedByIds,
 
-    LeaderboardSignals.scoreSubmitted,
-    LeaderboardSignals.scoreLoaded,
-    LeaderboardSignals.allLeaderboardsLoaded,
-    LeaderboardSignals.leaderboardLoaded,
+    LeaderboardSignals.leaderboardsScoreSubmitted,
+    LeaderboardSignals.leaderboardsScoreLoaded,
+    LeaderboardSignals.leaderboardsAllLoaded,
+    LeaderboardSignals.leaderboardsLoaded,
 
     PlayerSignals.currentPlayerLoaded,
     PlayerSignals.friendsLoaded,
@@ -88,33 +88,33 @@ object EventsSignals {
  */
 object LeaderboardSignals {
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.submitScore] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.leaderboardsSubmitScore] method.
      *
      * @return `true` if the score is submitted. `false` otherwise. Also returns the id of the leaderboard.
      */
-    val scoreSubmitted =
-        SignalInfo("scoreSubmitted", Boolean::class.javaObjectType, String::class.java)
+    val leaderboardsScoreSubmitted =
+        SignalInfo("leaderboardsScoreSubmitted", Boolean::class.javaObjectType, String::class.java)
 
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadPlayerScore] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.leaderboardsLoadPlayerScore] method.
      *
      * @return The leaderboard id and a JSON with a [com.google.android.gms.games.leaderboard.LeaderboardScore](https://developers.google.com/android/reference/com/google/android/gms/games/leaderboard/LeaderboardScore).
      */
-    val scoreLoaded = SignalInfo("scoreLoaded", String::class.java, String::class.java)
+    val leaderboardsScoreLoaded = SignalInfo("leaderboardsScoreLoaded", String::class.java, String::class.java)
 
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadAllLeaderboards] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.leaderboardsLoadAll] method.
      *
      * @return A JSON with a list of [com.google.android.gms.games.leaderboard.Leaderboard](https://developers.google.com/android/reference/com/google/android/gms/games/leaderboard/Leaderboard).
      */
-    val allLeaderboardsLoaded = SignalInfo("allLeaderboardsLoaded", String::class.java)
+    val leaderboardsAllLoaded = SignalInfo("leaderboardsAllLoaded", String::class.java)
 
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadLeaderboard] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.leaderboardsLoad] method.
      *
      * @return A JSON with a [com.google.android.gms.games.leaderboard.Leaderboard](https://developers.google.com/android/reference/com/google/android/gms/games/leaderboard/Leaderboard).
      */
-    val leaderboardLoaded = SignalInfo("leaderboardLoaded", String::class.java)
+    val leaderboardsLoaded = SignalInfo("leaderboardsLoaded", String::class.java)
 }
 
 /**
