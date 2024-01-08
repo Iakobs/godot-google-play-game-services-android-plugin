@@ -82,19 +82,19 @@ Returns A JSON string with a [Leaderboard](https://developers.google.com/android
 
 ### Players
 
-#### currentPlayerLoaded(player: String)
+#### playersCurrentLoaded(player: String)
 
-This signal is emitted when calling the `loadCurrentPlayer` method.
+This signal is emitted when calling the `playersLoadCurrent` method.
 Returns A JSON string with a [Player](https://developers.google.com/android/reference/com/google/android/gms/games/Player).
 
-#### friendsLoaded(friends: String)
+#### playersFriendsLoaded(friends: String)
 
-This signal is emitted when calling the `loadFriends` method.
+This signal is emitted when calling the `playersLoadFriends` method.
 Returns A JSON with a list of [Player](https://developers.google.com/android/reference/com/google/android/gms/games/Player).
 
-#### playerSearched(player: String)
+#### playersSearched(player: String)
 
-This signal is emitted when selecting a player in the search window that is being displayed after calling the [searchPlayer] method. Returns A JSON string with a [Player](https://developers.google.com/android/reference/com/google/android/gms/games/Player).
+This signal is emitted when selecting a player in the search window that is being displayed after calling the [playersSearch] method. Returns A JSON string with a [Player](https://developers.google.com/android/reference/com/google/android/gms/games/Player).
 
 ### Sign In
 
@@ -216,25 +216,25 @@ Loads the leaderboard data for the currently signed-in player. Emits `leaderboar
 
 ### Players
 
-#### compareProfile(otherPlayerId: String)
+#### playersCompareProfile(otherPlayerId: String)
 
 Shows a native popup to compare two players.
 
-#### compareProfileWithAlternativeNameHints(otherPlayerId: String, otherPlayerInGameName: String, currentPlayerInGameName: String)
+#### playersCompareProfileWithAlternativeNameHints(otherPlayerId: String, otherPlayerInGameName: String, currentPlayerInGameName: String)
 
 Shows a native popup to compare two players with alternative name hints.
 
-#### loadCurrentPlayer(forceReload: bool)
+#### playersLoadCurrent(forceReload: bool)
 
-Loads the player data for the currently signed-in player. Emits `currentPlayerLoaded`.
+Loads the player data for the currently signed-in player. Emits `playersCurrentLoaded`.
 
-#### loadFriends(pageSize: int, forceReload: bool, askForPermission: bool)
+#### playersLoadFriends(pageSize: int, forceReload: bool, askForPermission: bool)
 
-Loads the friends data for the currently signed-in player. Emits `friendsLoaded`.
+Loads the friends data for the currently signed-in player. Emits `playersFriendsLoaded`.
 
-#### searchPlayer()
+#### playersSearch()
 
-Shows a native popup to search for players. Emits `playerSearched`.
+Shows a native popup to search for players. Emits `playersSearched`.
 
 ### Sign in
 

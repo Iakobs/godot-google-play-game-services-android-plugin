@@ -11,9 +11,9 @@ import com.google.android.gms.games.PlayersClient
 import com.google.android.gms.games.PlayersClient.EXTRA_PLAYER_SEARCH_RESULTS
 import com.google.gson.Gson
 import com.jacobibanez.godot.gpgs.PLUGIN_NAME
-import com.jacobibanez.godot.gpgs.signals.PlayerSignals.currentPlayerLoaded
-import com.jacobibanez.godot.gpgs.signals.PlayerSignals.friendsLoaded
-import com.jacobibanez.godot.gpgs.signals.PlayerSignals.playerSearched
+import com.jacobibanez.godot.gpgs.signals.PlayerSignals.playersCurrentLoaded
+import com.jacobibanez.godot.gpgs.signals.PlayerSignals.playersFriendsLoaded
+import com.jacobibanez.godot.gpgs.signals.PlayerSignals.playersSearched
 import org.godotengine.godot.Dictionary
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin.emitSignal
@@ -42,7 +42,7 @@ class PlayersProxy(
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
-                        playerSearched,
+                        playersSearched,
                         Gson().toJson(fromPlayer(godot, players.first()))
                     )
                 } catch (exception: Exception) {
@@ -55,7 +55,7 @@ class PlayersProxy(
         }
     }
 
-    fun loadFriends(pageSize: Int, forceReload: Boolean, askForPermission: Boolean) {
+    fun playersLoadFriends(pageSize: Int, forceReload: Boolean, askForPermission: Boolean) {
         Log.d(tag, "Loading friends with page size of $pageSize and forceReload = $forceReload")
         playersClient.loadFriends(pageSize, forceReload).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -75,7 +75,7 @@ class PlayersProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    friendsLoaded,
+                    playersFriendsLoaded,
                     Gson().toJson(friends)
                 )
             } else {
@@ -88,7 +88,7 @@ class PlayersProxy(
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
-                        friendsLoaded,
+                        playersFriendsLoaded,
                         Gson().toJson(emptyList<Dictionary>())
                     )
                 }
@@ -96,7 +96,7 @@ class PlayersProxy(
         }
     }
 
-    fun compareProfile(otherPlayerId: String) {
+    fun playersCompareProfile(otherPlayerId: String) {
         Log.d(tag, "Comparing profile with player with id $otherPlayerId")
         playersClient.getCompareProfileIntent(otherPlayerId).addOnSuccessListener { intent ->
             ActivityCompat.startActivityForResult(
@@ -108,7 +108,7 @@ class PlayersProxy(
         }
     }
 
-    fun compareProfileWithAlternativeNameHints(
+    fun playersCompareProfileWithAlternativeNameHints(
         otherPlayerId: String,
         otherPlayerInGameName: String,
         currentPlayerInGameName: String
@@ -132,7 +132,7 @@ class PlayersProxy(
         }
     }
 
-    fun searchPlayer() {
+    fun playersSearch() {
         Log.d(tag, "Opening search intent.")
         playersClient.playerSearchIntent.addOnSuccessListener { intent ->
             ActivityCompat.startActivityForResult(
@@ -144,7 +144,7 @@ class PlayersProxy(
         }
     }
 
-    fun loadCurrentPlayer(forceReload: Boolean) {
+    fun playersLoadCurrent(forceReload: Boolean) {
         Log.d(tag, "Loading current player. Force reload? $forceReload")
         playersClient.getCurrentPlayer(forceReload).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -156,7 +156,7 @@ class PlayersProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    currentPlayerLoaded,
+                    playersCurrentLoaded,
                     Gson().toJson(player)
                 )
             } else {
@@ -168,7 +168,7 @@ class PlayersProxy(
                 emitSignal(
                     godot,
                     PLUGIN_NAME,
-                    currentPlayerLoaded,
+                    playersCurrentLoaded,
                     Gson().toJson(null)
                 )
             }

@@ -16,9 +16,9 @@ fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
     LeaderboardSignals.leaderboardsAllLoaded,
     LeaderboardSignals.leaderboardsLoaded,
 
-    PlayerSignals.currentPlayerLoaded,
-    PlayerSignals.friendsLoaded,
-    PlayerSignals.playerSearched,
+    PlayerSignals.playersCurrentLoaded,
+    PlayerSignals.playersFriendsLoaded,
+    PlayerSignals.playersSearched,
 
     SignInSignals.userAuthenticated,
     SignInSignals.requestedServerSideAccess,
@@ -122,26 +122,26 @@ object LeaderboardSignals {
  */
 object PlayerSignals {
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadFriends] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.playersLoadFriends] method.
      *
      * @return A JSON with a list of [com.google.android.gms.games.Player](https://developers.google.com/android/reference/com/google/android/gms/games/Player).
      */
-    val friendsLoaded = SignalInfo("friendsLoaded", String::class.java)
+    val playersFriendsLoaded = SignalInfo("playersFriendsLoaded", String::class.java)
 
     /**
      * This signal is emitted when selecting a player in the search window that is being displayed after
-     * calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.searchPlayer] method.
+     * calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.playersSearch] method.
      *
      * @return A JSON with a [com.google.android.gms.games.Player](https://developers.google.com/android/reference/com/google/android/gms/games/Player).
      */
-    val playerSearched = SignalInfo("playerSearched", String::class.java)
+    val playersSearched = SignalInfo("playersSearched", String::class.java)
 
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadCurrentPlayer] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.playersLoadCurrent] method.
      *
      * @return A JSON with a [com.google.android.gms.games.Player](https://developers.google.com/android/reference/com/google/android/gms/games/Player).
      */
-    val currentPlayerLoaded = SignalInfo("currentPlayerLoaded", String::class.java)
+    val playersCurrentLoaded = SignalInfo("playersCurrentLoaded", String::class.java)
 }
 
 /**

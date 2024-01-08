@@ -117,28 +117,28 @@ class GodotGooglePlayGameServices(
 
     /* Players */
     @UsedByGodot
-    fun compareProfile(otherPlayerId: String) = playersProxy.compareProfile(otherPlayerId)
+    fun playersCompareProfile(otherPlayerId: String) = playersProxy.playersCompareProfile(otherPlayerId)
 
     @UsedByGodot
-    fun compareProfileWithAlternativeNameHints(
+    fun playersCompareProfileWithAlternativeNameHints(
         otherPlayerId: String,
         otherPlayerInGameName: String,
         currentPlayerInGameName: String
-    ) = playersProxy.compareProfileWithAlternativeNameHints(
+    ) = playersProxy.playersCompareProfileWithAlternativeNameHints(
         otherPlayerId,
         otherPlayerInGameName,
         currentPlayerInGameName
     )
 
     @UsedByGodot
-    fun loadCurrentPlayer(forceReload: Boolean) = playersProxy.loadCurrentPlayer(forceReload)
+    fun playersLoadCurrent(forceReload: Boolean) = playersProxy.playersLoadCurrent(forceReload)
 
     @UsedByGodot
-    fun loadFriends(pageSize: Int, forceReload: Boolean, askForPermission: Boolean) =
-        playersProxy.loadFriends(pageSize, forceReload, askForPermission)
+    fun playersLoadFriends(pageSize: Int, forceReload: Boolean, askForPermission: Boolean) =
+        playersProxy.playersLoadFriends(pageSize, forceReload, askForPermission)
 
     @UsedByGodot
-    fun searchPlayer() = playersProxy.searchPlayer()
+    fun playersSearch() = playersProxy.playersSearch()
 
     /* SignIn */
     @UsedByGodot
