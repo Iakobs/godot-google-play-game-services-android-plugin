@@ -98,14 +98,14 @@ This signal is emitted when selecting a player in the search window that is bein
 
 ### Sign In
 
-#### userAuthenticated(isAuthenticated: bool)
+#### signInUserAuthenticated(isAuthenticated: bool)
 
-This signal is emitted when calling the `isAuthenticated` and `signIn` methods.
+This signal is emitted when calling the `signInIsAuthenticated` and `signInShowPopup` methods.
 Returns `true` if the user is authenticated or `false` otherwise.
 
-#### requestedServerSideAccess(token: String)
+#### signInRequestedServerSideAccess(token: String)
 
-This signal is emitted when calling the `requestServerSideAccess` method.
+This signal is emitted when calling the `signInRequestServerSideAccess` method.
 Returns an OAuth 2.0 authorization token as a string.
 
 ### Snapshots
@@ -238,17 +238,17 @@ Shows a native popup to search for players. Emits `playersSearched`.
 
 ### Sign in
 
-#### isAuthenticated()
+#### signInIsAuthenticated()
 
-Checks if the user is signed in. Emits `userAuthenticated`.
+Checks if the user is signed in. Emits `signInUserAuthenticated`.
 
-#### signIn()
+#### signInShowPopup()
 
-Signs in the user. Emits `userAuthenticated`.
+Show a native popup to sign in the user. Emits `signInUserAuthenticated`.
 
-#### requestServerSideAccess(serverClientId: String, forceRefreshToken: bool)
+#### signInRequestServerSideAccess(serverClientId: String, forceRefreshToken: bool)
 
-Requests server-side access for the specified server client ID. Emits `requestedServerSideAccess`.
+Requests server-side access for the specified server client ID. Emits `signInRequestedServerSideAccess`.
 
 ### Snapshots
 

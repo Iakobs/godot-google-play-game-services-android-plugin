@@ -40,7 +40,7 @@ class GodotGooglePlayGameServices(
     fun initialize() {
         Log.d(tag, "Initializing Google Play Game Services")
         PlayGamesSdk.initialize(activity!!)
-        isAuthenticated()
+        signInIsAuthenticated()
     }
 
     /* Achievements */
@@ -142,14 +142,14 @@ class GodotGooglePlayGameServices(
 
     /* SignIn */
     @UsedByGodot
-    fun isAuthenticated() = signInProxy.isAuthenticated()
+    fun signInIsAuthenticated() = signInProxy.signInIsAuthenticated()
 
     @UsedByGodot
-    fun requestServerSideAccess(serverClientId: String, forceRefreshToken: Boolean) =
-        signInProxy.requestServerSideAccess(serverClientId, forceRefreshToken)
+    fun signInRequestServerSideAccess(serverClientId: String, forceRefreshToken: Boolean) =
+        signInProxy.signInRequestServerSideAccess(serverClientId, forceRefreshToken)
 
     @UsedByGodot
-    fun signIn() = signInProxy.signIn()
+    fun signInShowPopup() = signInProxy.signInShowPopup()
 
     /* Snapshots */
     @UsedByGodot

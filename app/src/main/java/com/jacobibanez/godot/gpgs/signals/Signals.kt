@@ -20,8 +20,8 @@ fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
     PlayerSignals.playersFriendsLoaded,
     PlayerSignals.playersSearched,
 
-    SignInSignals.userAuthenticated,
-    SignInSignals.requestedServerSideAccess,
+    SignInSignals.signInUserAuthenticated,
+    SignInSignals.signInRequestedServerSideAccess,
 
     SnapshotSignals.gameSaved,
     SnapshotSignals.gameLoaded,
@@ -149,19 +149,19 @@ object PlayerSignals {
  */
 object SignInSignals {
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.requestServerSideAccess] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.signInRequestServerSideAccess] method.
      *
      * @return An OAuth 2.0 authorization code as a string.
      */
-    val requestedServerSideAccess = SignalInfo("requestedServerSideAccess", String::class.java)
+    val signInRequestedServerSideAccess = SignalInfo("signInRequestedServerSideAccess", String::class.java)
 
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.isAuthenticated]
-     * and [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.signIn] methods.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.signInIsAuthenticated]
+     * and [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.signInShowPopup] methods.
      *
      * @return `true` if the user is authenticated. `false` otherwise.
      */
-    val userAuthenticated = SignalInfo("userAuthenticated", Boolean::class.javaObjectType)
+    val signInUserAuthenticated = SignalInfo("signInUserAuthenticated", Boolean::class.javaObjectType)
 }
 
 object SnapshotSignals {
