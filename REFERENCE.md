@@ -155,11 +155,11 @@ The achievement must be an incremental achievement.
 Once an achievement reaches at least the maximum number of steps, it will be unlocked automatically.
 Emits `achievementsUnlocked` if `immediate` is `true`.
 
-#### showAchievements()
+#### achievementsShow()
 
 Shows a native popup to browse game achievements of the currently signed-in player.
 
-#### unlockAchievement(achievementId: String, immediate: bool)
+#### achievementsUnlock(achievementId: String, immediate: bool)
 
 Unlocks an achievement for the currently signed in player.
 If the achievement is hidden this will reveal it to the player.
@@ -182,35 +182,35 @@ Loads the event data for the currently signed-in player for the specified ids. E
 
 ### Leaderboards
 
-#### showAllLeaderboards()
+#### leaderboardsShowAll()
 
 Shows a native popup to browse all leaderboards.
 
-#### showLeaderboard(leaderboardId: String)
+#### leaderboardsShow(leaderboardId: String)
 
 Shows a native popup to browse the specified leaderboard.
 
-#### showLeaderboardForTimeSpan(leaderboardId: String, timeSpan: Int)
+#### leaderboardsShowForTimeSpan(leaderboardId: String, timeSpan: Int)
 
 Shows a native popup to browse the specified leaderboard for the specified time span.
 
-#### showLeaderboardForTimeSpanAndCollection(leaderboardId: String, timeSpan: int, collection: int)
+#### leaderboardsShowForTimeSpanAndCollection(leaderboardId: String, timeSpan: int, collection: int)
 
 Shows a native popup to browse the specified leaderboard for the specified time span and collection.
 
-#### submitScore(leaderboardId: String, score: float)
+#### leaderboardsSubmitScore(leaderboardId: String, score: float)
 
 Submits a score to the specified leaderboard. Emits `leaderboardsScoreSubmitted`.
 
-#### loadPlayerScore(leaderboardId: String, timeSpan: int, collection: int)
+#### leaderboardsLoadPlayerScore(leaderboardId: String, timeSpan: int, collection: int)
 
 Loads the player's score for the specified leaderboard. Emits `leaderboardsScoreLoaded`.
 
-#### loadAllLeaderboards(forceReload: bool)
+#### leaderboardsLoadAll(forceReload: bool)
 
 Loads the leaderboard data for the currently signed-in player. Emits `leaderboardsAllLoaded`.
 
-#### loadLeaderboard(leaderboardId: String, forceReload: bool)
+#### leaderboardsLoad(leaderboardId: String, forceReload: bool)
 
 Loads the leaderboard data for the currently signed-in player. Emits `leaderboardsLoaded`
 
