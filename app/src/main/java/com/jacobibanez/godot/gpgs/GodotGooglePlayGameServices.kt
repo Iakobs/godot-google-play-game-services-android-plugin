@@ -153,10 +153,10 @@ class GodotGooglePlayGameServices(
 
     /* Snapshots */
     @UsedByGodot
-    fun loadGame(fileName: String) = snapshotsProxy.loadGame(fileName)
+    fun snapshotsLoadGame(fileName: String) = snapshotsProxy.loadGame(fileName)
 
     @UsedByGodot
-    fun saveGame(
+    fun snapshotsSaveGame(
         fileName: String,
         description: String,
         saveData: ByteArray,
@@ -165,7 +165,7 @@ class GodotGooglePlayGameServices(
     ) = snapshotsProxy.saveGame(fileName, description, saveData, playedTimeMillis.toLong(), progressValue.toLong())
 
     @UsedByGodot
-    fun showSavedGames(
+    fun snapshotsShowSavedGames(
         title: String,
         allowAddButton: Boolean,
         allowDelete: Boolean,

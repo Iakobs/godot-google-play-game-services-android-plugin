@@ -14,9 +14,9 @@ import com.google.android.gms.games.snapshot.SnapshotMetadata
 import com.google.android.gms.games.snapshot.SnapshotMetadataChange
 import com.google.gson.Gson
 import com.jacobibanez.godot.gpgs.PLUGIN_NAME
-import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.conflictEmitted
-import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.gameLoaded
-import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.gameSaved
+import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.snapshotsConflictEmitted
+import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.snapshotsGameLoaded
+import com.jacobibanez.godot.gpgs.signals.SnapshotSignals.snapshotsGameSaved
 import org.godotengine.godot.Godot
 import org.godotengine.godot.Dictionary
 import org.godotengine.godot.plugin.GodotPlugin.emitSignal
@@ -83,7 +83,7 @@ class SnapshotsProxy(
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
-                        gameSaved,
+                        snapshotsGameSaved,
                         true,
                         fileName,
                         description
@@ -112,14 +112,14 @@ class SnapshotsProxy(
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
-                        gameLoaded,
+                        snapshotsGameLoaded,
                         Gson().toJson(fromSnapshot(godot, snapshot))
                     )
                 } else {
                     emitSignal(
                         godot,
                         PLUGIN_NAME,
-                        gameLoaded,
+                        snapshotsGameLoaded,
                         Gson().toJson(Dictionary())
                     )
                 }
@@ -138,7 +138,7 @@ class SnapshotsProxy(
             emitSignal(
                 godot,
                 PLUGIN_NAME,
-                conflictEmitted,
+                snapshotsConflictEmitted,
                 Gson().toJson(fromConflict(godot, it))
             )
         }

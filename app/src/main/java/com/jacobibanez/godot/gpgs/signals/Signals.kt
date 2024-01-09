@@ -23,9 +23,9 @@ fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
     SignInSignals.signInUserAuthenticated,
     SignInSignals.signInRequestedServerSideAccess,
 
-    SnapshotSignals.gameSaved,
-    SnapshotSignals.gameLoaded,
-    SnapshotSignals.conflictEmitted,
+    SnapshotSignals.snapshotsGameSaved,
+    SnapshotSignals.snapshotsGameLoaded,
+    SnapshotSignals.snapshotsConflictEmitted,
 
     HelperSignals.imageStored,
 )
@@ -166,31 +166,31 @@ object SignInSignals {
 
 object SnapshotSignals {
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.saveGame] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.snapshotsSaveGame] method.
      *
      * @return A boolean indicating if the game was saved or not, and the name and description of the save file.
      */
-    val gameSaved = SignalInfo(
-        "gameSaved",
+    val snapshotsGameSaved = SignalInfo(
+        "snapshotsGameSaved",
         Boolean::class.javaObjectType,
         String::class.java,
         String::class.java
     )
 
     /**
-     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.loadGame] method
-     * or after selecting a saved game in the window opened by the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.showSavedGames] method.
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.snapshotsLoadGame] method
+     * or after selecting a saved game in the window opened by the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.snapshotsShowSavedGames] method.
      *
      * @return A JSON representing a [com.google.android.gms.games.snapshot.Snapshot](https://developers.google.com/android/reference/com/google/android/gms/games/snapshot/Snapshot).
      */
-    val gameLoaded = SignalInfo("gameLoaded", String::class.java)
+    val snapshotsGameLoaded = SignalInfo("snapshotsGameLoaded", String::class.java)
 
     /**
      * This signal is emitted when saving or loading a game, whenever a conflict occurs.
      *
      * @return A JSON representing a [com.google.android.gms.games.SnapshotsClient.SnapshotConflict](https://developers.google.com/android/reference/com/google/android/gms/games/SnapshotsClient.SnapshotConflict).
      */
-    val conflictEmitted = SignalInfo("conflictEmitted", String::class.java)
+    val snapshotsConflictEmitted = SignalInfo("snapshotsConflictEmitted", String::class.java)
 }
 
 object HelperSignals {

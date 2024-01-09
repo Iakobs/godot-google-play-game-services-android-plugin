@@ -110,17 +110,17 @@ Returns an OAuth 2.0 authorization token as a string.
 
 ### Snapshots
 
-#### gameSaved(saved: bool, fileName: String, description: String)
+#### snapshotsGameSaved(saved: bool, fileName: String, description: String)
 
-This signal is emitted when calling the `saveGame` method.
+This signal is emitted when calling the `snapshotsSaveGame` method.
 Returns a boolean indicating if the game was saved or not, and the name and description of the save file.
 
-#### gameLoaded(snapshot: String)
+#### snapshotsGameLoaded(snapshot: String)
 
-This signal is emitted when calling the `loadGame` method or after selecting a saved game in the window opened by the `showSavedGames` method.
+This signal is emitted when calling the `snapshotsLoadGame` method or after selecting a saved game in the window opened by the `snapshotsShowSavedGames` method.
 Returns A JSON string representing a [Snapshot](https://developers.google.com/android/reference/com/google/android/gms/games/snapshot/Snapshot).
 
-#### conflictEmitted(conflict: String)
+#### snapshotsConflictEmitted(conflict: String)
 
 This signal is emitted when saving or loading a game, whenever a conflict occurs.
 Returns A JSON string representing a [SnapshotConflict](https://developers.google.com/android/reference/com/google/android/gms/games/SnapshotsClient.SnapshotConflict).
@@ -252,14 +252,14 @@ Requests server-side access for the specified server client ID. Emits `signInReq
 
 ### Snapshots
 
-#### loadGame(fileName: String)
+#### snapshotsLoadGame(fileName: String)
 
-Loads a game from the specified file. Emits `gameLoaded` or `conflictEmitted`.
+Loads a game from the specified file. Emits `snapshotsGameLoaded` or `snapshotsConflictEmitted`.
 
-#### saveGame(fileName: String, description: String, saveData: PoolByteArray, playedTimeMillis: int, progressValue: int)
+#### snapshotsSaveGame(fileName: String, description: String, saveData: PoolByteArray, playedTimeMillis: int, progressValue: int)
 
-Saves a game to the specified file. Emits `gameSaved` or `conflictEmitted`.
+Saves a game to the specified file. Emits `snapshotsGameSaved` or `snapshotsConflictEmitted`.
 
-#### showSavedGames(title: String, allowAddButton: bool, allowDelete: bool, maxSnapshots: int)
+#### snapshotsShowSavedGames(title: String, allowAddButton: bool, allowDelete: bool, maxSnapshots: int)
 
-Shows a native popup to browse saved games. Emits `gameLoaded`.
+Shows a native popup to browse saved games. Emits `snapshotsGameLoaded`.
