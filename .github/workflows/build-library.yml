@@ -32,6 +32,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Download and rename Godot library package
+        run: |
+          wget https://github.com/godotengine/godot/releases/download/3.5.3-stable/godot-lib.3.5.3.stable.release.aar -O godot-lib.release.aar
+
+      - name: Move Godot library package to the appropriate folder
+        run: mv godot-lib.release.aar godot-lib.release/
+
       - name: Build artifact
         run: ./gradlew :app:assembleRelease
 
