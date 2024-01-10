@@ -6,4 +6,4 @@ binary="GodotGooglePlayGameServices.release.aar"
 
 [dependencies]
 
-remote=["com.google.android.gms:play-services-games-v2:17.0.0"]
+remote=["com.google.android.gms:play-services-games-v2:17.0.0", "com.google.code.gson:gson:2.10.1"]
