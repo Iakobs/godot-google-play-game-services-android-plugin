@@ -17,22 +17,16 @@ fun fromGame(godot: Godot, game: Game) = Dictionary().apply {
     game.secondaryCategory.let { put("secondaryCategory", it) }
     put("themeColor", game.themeColor)
     put("hasGamepadSupport", game.hasGamepadSupport())
-    game.hiResImageUri.let {
-        put(
-            "hiResImageUri",
-            it.toStringAndSave(godot, "hiResImageUri", game.applicationId)
-        )
-    }
-    game.iconImageUri.let {
-        put(
-            "iconImageUri",
-            it.toStringAndSave(godot, "iconImageUri", game.applicationId)
-        )
-    }
-    game.featuredImageUri.let {
-        put(
-            "featuredImageUri",
-            it.toStringAndSave(godot, "featuredImageUri", game.applicationId)
-        )
-    }
+    put(
+        "hiResImageUri",
+        game.hiResImageUri?.toStringAndSave(godot, "hiResImageUri", game.applicationId) ?: ""
+    )
+    put(
+        "iconImageUri",
+        game.iconImageUri?.toStringAndSave(godot, "iconImageUri", game.applicationId) ?: ""
+    )
+    put(
+        "featuredImageUri",
+        game.featuredImageUri?.toStringAndSave(godot, "featuredImageUri", game.applicationId) ?: ""
+    )
 }
