@@ -79,7 +79,7 @@ In short follow these steps:
     - Linux:
       - `./gradlew assembleRelease`
   - Copy the newly created `.aar` file to your plugin directory:
-    - `app/build/outputs/aar/GodotPlayGamesServices.release.aar` to `[your Godot project]/android/plugins/`
+    - `app/build/outputs/aar/GodotGooglePlayGameServices.release.aar` to `[your Godot project]/android/plugins/`
 
 # How to use
 
