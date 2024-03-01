@@ -10,7 +10,7 @@ fun fromEvent(godot: Godot, event: Event) = Dictionary().apply {
     put("description", event.description)
     put("eventId", event.eventId)
     put("formattedValue", event.formattedValue)
-    event.iconImageUri.let {
+    event.iconImageUri?.let {
         put(
             "iconImageUri",
             it.toStringAndSave(godot, "iconImageUri", event.eventId)

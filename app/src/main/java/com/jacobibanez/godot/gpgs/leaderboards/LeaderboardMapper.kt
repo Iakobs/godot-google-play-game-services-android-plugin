@@ -46,7 +46,7 @@ fun fromLeaderboard(godot: Godot, leaderboard: Leaderboard) = Dictionary().apply
     put("displayName", leaderboard.displayName)
     put("variants", fromLeaderboardVariant(leaderboard.variants))
     ScoreOrder.fromOrder(leaderboard.scoreOrder)?.let { put("scoreOrder", it.name) }
-    leaderboard.iconImageUri.let {
+    leaderboard.iconImageUri?.let {
         put(
             "iconImageUri",
             it.toStringAndSave(
