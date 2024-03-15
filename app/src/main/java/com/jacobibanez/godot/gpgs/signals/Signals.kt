@@ -15,6 +15,8 @@ fun getSignals(): MutableSet<SignalInfo> = mutableSetOf(
     LeaderboardSignals.leaderboardsScoreLoaded,
     LeaderboardSignals.leaderboardsAllLoaded,
     LeaderboardSignals.leaderboardsLoaded,
+    LeaderboardSignals.leaderboardsPlayerCenteredScoresLoaded,
+    LeaderboardSignals.leaderboardsTopScoresLoaded,
 
     PlayerSignals.playersCurrentLoaded,
     PlayerSignals.playersFriendsLoaded,
@@ -115,6 +117,22 @@ object LeaderboardSignals {
      * @return A JSON with a [com.google.android.gms.games.leaderboard.Leaderboard](https://developers.google.com/android/reference/com/google/android/gms/games/leaderboard/Leaderboard).
      */
     val leaderboardsLoaded = SignalInfo("leaderboardsLoaded", String::class.java)
+
+    /**
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.leaderboardsLoadPlayerCenteredScores] method.
+     *
+     * @return The leaderboard id and a JSON with a [com.google.android.gms.games.LeaderboardsClient.LeaderboardScores](https://developers.google.com/android/reference/com/google/android/gms/games/LeaderboardsClient.LeaderboardScores).
+     */
+    val leaderboardsPlayerCenteredScoresLoaded =
+        SignalInfo("leaderboardsPlayerCenteredScoresLoaded", String::class.java, String::class.java)
+
+    /**
+     * This signal is emitted when calling the [com.jacobibanez.godot.gpgs.GodotGooglePlayGameServices.leaderboardsLoadTopScores] method.
+     *
+     * @return The leaderboard id and a JSON with a [com.google.android.gms.games.LeaderboardsClient.LeaderboardScores](https://developers.google.com/android/reference/com/google/android/gms/games/LeaderboardsClient.LeaderboardScores).
+     */
+    val leaderboardsTopScoresLoaded =
+        SignalInfo("leaderboardsTopScoresLoaded", String::class.java, String::class.java)
 }
 
 /**
