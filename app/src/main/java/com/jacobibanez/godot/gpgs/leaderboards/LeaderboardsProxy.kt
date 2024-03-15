@@ -9,6 +9,8 @@ import com.google.gson.Gson
 import com.jacobibanez.godot.gpgs.PLUGIN_NAME
 import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsAllLoaded
 import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsLoaded
+import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsPlayerCenteredScoresLoaded
+import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsTopScoresLoaded
 import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsScoreLoaded
 import com.jacobibanez.godot.gpgs.signals.LeaderboardSignals.leaderboardsScoreSubmitted
 import org.godotengine.godot.Dictionary
@@ -220,4 +222,98 @@ class LeaderboardsProxy(
                 }
             }
     }
+
+    fun loadPlayerCenteredScores(
+        leaderboardId: String,
+        timeSpan: Int,
+        collection: Int,
+        maxResults: Int,
+        forceReload: Boolean
+    ) {
+        Log.d(
+            tag, "Loading player centered scores for leaderboard $leaderboardId, " +
+                    "span ${TimeSpan.fromSpan(timeSpan)?.name}, collection " +
+                    "${Collection.fromType(collection)?.name} and max results $maxResults"
+        )
+        leaderboardsClient.loadPlayerCenteredScores(leaderboardId, timeSpan, collection, maxResults, forceReload)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(
+                        tag,
+                        "Player centered scores loaded successfully. Data is stale? ${task.result.isStale}"
+                    )
+                    val leaderboardScores = task.result.get()!!
+                    val result: Dictionary = fromLeaderboardScores(godot, leaderboardScores)
+                    leaderboardScores.release()
+                    emitSignal(
+                        godot,
+                        PLUGIN_NAME,
+                        leaderboardsPlayerCenteredScoresLoaded,
+                        leaderboardId,
+                        Gson().toJson(result)
+                    )
+                } else {
+                    Log.e(
+                        tag,
+                        "Failed to load player centered scores. Cause: ${task.exception}",
+                        task.exception
+                    )
+                    emitSignal(
+                        godot,
+                        PLUGIN_NAME,
+                        leaderboardsPlayerCenteredScoresLoaded,
+                        leaderboardId,
+                        Gson().toJson(null)
+                    )
+                }
+            }
+    }
+
+    fun loadTopScores(
+        leaderboardId: String,
+        timeSpan: Int,
+        collection: Int,
+        maxResults: Int,
+        forceReload: Boolean
+    ) {
+        Log.d(
+            tag, "Loading top scores for leaderboard $leaderboardId, " +
+                    "span ${TimeSpan.fromSpan(timeSpan)?.name}, collection " +
+                    "${Collection.fromType(collection)?.name} and max results $maxResults"
+        )
+        leaderboardsClient.loadTopScores(leaderboardId, timeSpan, collection, maxResults, forceReload)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(
+                        tag,
+                        "Top scores loaded successfully. Data is stale? ${task.result.isStale}"
+                    )
+                    val leaderboardScores = task.result.get()!!
+                    val result: Dictionary = fromLeaderboardScores(godot, leaderboardScores)
+                    leaderboardScores.release()
+                    emitSignal(
+                        godot,
+                        PLUGIN_NAME,
+                        leaderboardsTopScoresLoaded,
+                        leaderboardId,
+                        Gson().toJson(result)
+                    )
+                } else {
+                    Log.e(
+                        tag,
+                        "Failed to load top scores. Cause: ${task.exception}",
+                        task.exception
+                    )
+                    emitSignal(
+                        godot,
+                        PLUGIN_NAME,
+                        leaderboardsTopScoresLoaded,
+                        leaderboardId,
+                        Gson().toJson(null)
+                    )
+                }
+            }
+    }
+
+
 }

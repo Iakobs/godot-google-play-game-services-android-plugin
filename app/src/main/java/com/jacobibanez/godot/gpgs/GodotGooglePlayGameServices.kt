@@ -115,6 +115,15 @@ class GodotGooglePlayGameServices(
     fun leaderboardsLoad(leaderboardId: String, forceReload: Boolean) =
         leaderboardsProxy.load(leaderboardId, forceReload)
 
+    @UsedByGodot
+    fun leaderboardsLoadPlayerCenteredScores(leaderboardId: String, timeSpan: Int, collection: Int, maxResults: Int, forceReload: Boolean) =
+        leaderboardsProxy.loadPlayerCenteredScores(leaderboardId, timeSpan, collection, maxResults, forceReload)
+
+    @UsedByGodot
+    fun leaderboardsLoadTopScores(leaderboardId: String, timeSpan: Int, collection: Int, maxResults: Int, forceReload: Boolean) =
+        leaderboardsProxy.loadTopScores(leaderboardId, timeSpan, collection, maxResults, forceReload)
+
+
     /* Players */
     @UsedByGodot
     fun playersCompareProfile(otherPlayerId: String) = playersProxy.playersCompareProfile(otherPlayerId)
