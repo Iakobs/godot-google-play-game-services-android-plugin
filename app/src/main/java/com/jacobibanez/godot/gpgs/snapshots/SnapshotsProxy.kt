@@ -30,6 +30,7 @@ class SnapshotsProxy(
     private val showSavedGamesRequestCode = 9010
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d(tag, "on activity result $requestCode $resultCode $data")
         if (requestCode == showSavedGamesRequestCode && resultCode == Activity.RESULT_OK) {
             data?.let { intent ->
                 if (intent.hasExtra(EXTRA_SNAPSHOT_METADATA)) {

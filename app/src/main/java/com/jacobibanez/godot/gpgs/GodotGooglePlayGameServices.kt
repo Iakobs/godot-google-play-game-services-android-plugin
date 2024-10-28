@@ -1,5 +1,6 @@
 package com.jacobibanez.godot.gpgs
 
+import android.content.Intent
 import android.util.Log
 import com.google.android.gms.games.PlayGamesSdk
 import com.jacobibanez.godot.gpgs.achievements.AchievementsProxy
@@ -34,6 +35,13 @@ class GodotGooglePlayGameServices(
 
     override fun getPluginSignals(): MutableSet<SignalInfo> {
         return getSignals()
+    }
+
+    /** @suppress */
+    override fun onMainActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onMainActivityResult(requestCode, resultCode, data)
+        playersProxy.onActivityResult(requestCode, resultCode, data)
+        snapshotsProxy.onActivityResult(requestCode, resultCode, data)
     }
 
     @UsedByGodot
