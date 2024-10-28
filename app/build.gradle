@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 
     // Google Play Game Services
-    implementation 'com.google.android.gms:play-services-games-v2:17.0.0'
+    implementation 'com.google.android.gms:play-services-games-v2:20.1.2'
 
     // Godot android library
     compileOnly fileTree(dir: "libs", include: ["*.jar", "*.aar"])

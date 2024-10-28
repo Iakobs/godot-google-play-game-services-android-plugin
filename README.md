@@ -1,8 +1,8 @@
 ![Plugin Header](github-social-preview.png)
 
 [![Android version and API level](https://img.shields.io/badge/Android-API%20Level%2033-darkgreen.svg)](https://developer.android.com)
-[![Godot version](https://img.shields.io/badge/Godot%20Engine-3.5.3-blue.svg)](https://github.com/godotengine/godot/)
-[![Google Play Game Services version](https://img.shields.io/badge/Play%20Games%20Services%20v2-17.0.0-green.svg)](https://developers.google.com/games/services/android/quickstart)
+[![Godot version](https://img.shields.io/badge/Godot%20Engine-3.6-blue.svg)](https://godotengine.org/download/3.x)
+[![Google Play Game Services version](https://img.shields.io/badge/Play%20Games%20Services%20v2-20.1.2-green.svg)](https://developers.google.com/games/services/android/quickstart)
 
 > ⚠️ A **Godot 4.2+** version of this plugin can be found [here](https://github.com/Iakobs/godot-play-game-services)!
 
